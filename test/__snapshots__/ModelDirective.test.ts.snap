@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ModelDirective produces the expected schema 1`] = `
+"type Foo {
+  name: String
+
+  \\"\\"\\"Unique ID\\"\\"\\"
+  id: ID
+}
+
+type Mutation {
+  _: Boolean
+
+  \\"\\"\\"Create a Foo\\"\\"\\"
+  createFoo(data: Foo!): Foo
+
+  \\"\\"\\"Update a Foo\\"\\"\\"
+  updateFoo(data: Foo!): Foo
+
+  \\"\\"\\"Update a Foo or create it if it doesn't exist\\"\\"\\"
+  upsertFoo(data: Foo!): Foo
+
+  \\"\\"\\"Remove a Foo\\"\\"\\"
+  removeFoo: Foo
+}
+
+type Query {
+  _: Boolean
+
+  \\"\\"\\"Find one Foo\\"\\"\\"
+  foo: Foo
+
+  \\"\\"\\"Find multiple Foos\\"\\"\\"
+  foos: Foo
+}
+"
+`;

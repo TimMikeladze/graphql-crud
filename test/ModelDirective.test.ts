@@ -25,15 +25,14 @@ describe('ModelDirective', () => {
   ${baseTypeDefs}
 `;
 
-  it('adds id field to type', () => {
-      const schema = makeExecutableSchema({
-        typeDefs,
-        directives: {
-          model: ModelDirective,
-        } as any,
-      });
+  const schema = makeExecutableSchema({
+    typeDefs,
+    directives: {
+      model: ModelDirective,
+    } as any,
+  });
 
-      const fields = (schema.getType('Foo') as any).getFields();
-      expect(fields.id).toBeDefined();
+  it('produces the expected schema', () => {
+    expect(printSchema(schema)).toMatchSnapshot();
   });
 });
