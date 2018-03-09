@@ -2,6 +2,7 @@ export * from './ModelDirective';
 export * from './RelationDirective';
 export * from './DefaultDirective';
 export * from './UniqueDirective';
+export * from './Storage';
 
 import { DefaultDirective } from './DefaultDirective';
 import { ModelDirective } from './ModelDirective';
