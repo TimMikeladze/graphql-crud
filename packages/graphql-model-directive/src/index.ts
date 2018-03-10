@@ -3,6 +3,7 @@ export * from './RelationDirective';
 export * from './DefaultDirective';
 export * from './UniqueDirective';
 export * from './Storage';
+export * from './generateFieldNames';
 
 import { DefaultDirective } from './DefaultDirective';
 import { ModelDirective } from './ModelDirective';

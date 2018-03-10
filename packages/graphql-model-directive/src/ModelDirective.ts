@@ -4,35 +4,12 @@ import {
   GraphQLObjectType,
 } from 'graphql';
 import { SchemaDirectiveVisitor } from 'graphql-tools';
-
-import camelCase from 'camel-case';
-import pascalCase from 'pascal-case';
 import pluralize from 'pluralize';
+import {
+  generateFieldNames,
+} from './';
 
 export class ModelDirective extends SchemaDirectiveVisitor {
-  public static generateFieldNames(name) {
-    const names = {
-      input: {
-        create: `Create${pluralize.singular(pascalCase(name))}InputType`,
-        remove: `Remove${pluralize.singular(pascalCase(name))}InputType`,
-        update: `Update${pluralize.singular(pascalCase(name))}InputType`,
-        upsert: `Upsert${pluralize.singular(pascalCase(name))}InputType`,
-      },
-      query: {
-        one: pluralize.singular(camelCase(name)),
-        many: pluralize.plural(camelCase(name)),
-      },
-      mutation: {
-        create: `create${pluralize.singular(pascalCase(name))}`,
-        remove: `remove${pluralize.singular(pascalCase(name))}`,
-        update: `update${pluralize.singular(pascalCase(name))}`,
-        upsert: `upsert${pluralize.singular(pascalCase(name))}`,
-      },
-    };
-
-    return names;
-  }
-
   public visitObject(type: GraphQLObjectType) {
     // TODO check that id field does not already exist on type
     // Add an "id" field to the object type.
@@ -52,7 +29,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
   }
 
   private addMutations(type: GraphQLObjectType) {
-    const names = ModelDirective.generateFieldNames(type.name);
+    const names = generateFieldNames(type.name);
 
     // TODO add check to make sure mutation root type is defined and if not create it
     (this.schema.getMutationType() as any).getFields()[names.mutation.create] = {
@@ -104,7 +81,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
   }
 
   private addQueries(type: GraphQLObjectType) {
-    const names = ModelDirective.generateFieldNames(type.name);
+    const names = generateFieldNames(type.name);
 
     this.schema.getQueryType().getFields()[names.query.one] = {
       name: names.query.one,
