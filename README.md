@@ -6,7 +6,11 @@ Annotate a GraphQL schema with directives to generate CRUD queries, mutations an
 
 ## Getting started
 
-Install package: `npm install graphql-model-directive` or `yarn add graphql-model-directive`.
+1. Install core package: `npm install graphql-model-directive` or `yarn add graphql-model-directive`.
+2. Install a storage package:
+    - Mongo: `npm install graphql-model-mongo` or `yarn add graphql-model-mongo`.
+3. Define your schema and annotate it with directives.
+4. Use `makeExecutableSchema` to generate schema.
 
 ```javascript
 import { makeExecutableSchema } from 'graphql-tools';
