@@ -1,6 +1,6 @@
-import camelCase from 'camel-case';
-import pascalCase from 'pascal-case';
-import pluralize from 'pluralize';
+import * as pluralize from 'pluralize';
+const pascalCase = require('pascal-case'); // tslint:disable-line no-var-requires
+const camelCase = require('camel-case'); // tslint:disable-line no-var-requires
 
 export const generateFieldNames = (name) => {
   const names = {

@@ -23,6 +23,9 @@
       "helpMessage": "Use \"yarn run commit\" instead, we use conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
     }
   },
+  "resolutions": {
+    "graphql": "0.13.0"
+  },
   "devDependencies": {
     "commitizen": "^2.9.6",
     "cz-conventional-changelog": "^2.1.0",

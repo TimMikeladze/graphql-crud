@@ -4,7 +4,7 @@ import {
   GraphQLObjectType,
 } from 'graphql';
 import { SchemaDirectiveVisitor } from 'graphql-tools';
-import pluralize from 'pluralize';
+import * as pluralize from 'pluralize';
 import {
   generateFieldNames,
 } from './';
@@ -32,6 +32,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
     const names = generateFieldNames(type.name);
 
     // TODO add check to make sure mutation root type is defined and if not create it
+
     (this.schema.getMutationType() as any).getFields()[names.mutation.create] = {
       name: names.mutation.create,
       type,
@@ -94,7 +95,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
     this.schema.getQueryType().getFields()[names.query.many] = {
       name: names.query.many,
       type,
-      description: `Find multiple ${pluralize(type.name)}`,
+      description: `Find multiple ${pluralize.plural(type.name)}`,
       args: [],
       resolve: () => null,
     };
