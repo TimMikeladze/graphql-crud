@@ -1,0 +1,12 @@
+{
+  "extends": [
+    "@intelight/tslint"
+  ],
+  "rules": {
+    "no-implicit-dependencies": [
+      true,
+      "dev"
+    ],
+    "no-shadowed-variable": false
+  }
+}
