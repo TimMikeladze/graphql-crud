@@ -5,10 +5,13 @@ const camelCase = require('camel-case'); // tslint:disable-line no-var-requires
 export const generateFieldNames = (name) => {
   const names = {
     input: {
-      create: `Create${pluralize.singular(pascalCase(name))}InputType`,
-      remove: `Remove${pluralize.singular(pascalCase(name))}InputType`,
-      update: `Update${pluralize.singular(pascalCase(name))}InputType`,
-      upsert: `Upsert${pluralize.singular(pascalCase(name))}InputType`,
+      type: `${pluralize.singular(pascalCase(name))}InputType`,
+      mutation: {
+        create: `Create${pluralize.singular(pascalCase(name))}InputType`,
+        remove: `Remove${pluralize.singular(pascalCase(name))}InputType`,
+        update: `Update${pluralize.singular(pascalCase(name))}InputType`,
+        upsert: `Upsert${pluralize.singular(pascalCase(name))}InputType`,
+      },
     },
     query: {
       one: pluralize.singular(camelCase(name)),

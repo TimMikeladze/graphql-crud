@@ -4,6 +4,7 @@ export * from './DefaultDirective';
 export * from './UniqueDirective';
 export * from './Storage';
 export * from './generateFieldNames';
+export * from './omitResolvers';
 
 import { DefaultDirective } from './DefaultDirective';
 import { ModelDirective } from './ModelDirective';

@@ -1,31 +1,56 @@
 import {
+  defaultFieldResolver,
+  getNamedType,
+  getNullableType,
   GraphQLID,
+  GraphQLInputObjectType,
+  GraphQLInputType,
+  GraphQLInt,
   GraphQLNonNull,
   GraphQLObjectType,
+  GraphQLOutputType,
+  GraphQLScalarType,
 } from 'graphql';
 import { SchemaDirectiveVisitor } from 'graphql-tools';
+import { omitBy } from 'lodash';
 import * as pluralize from 'pluralize';
 import {
   generateFieldNames,
+  omitResolvers,
 } from './';
 
 export class ModelDirective extends SchemaDirectiveVisitor {
   public visitObject(type: GraphQLObjectType) {
     // TODO check that id field does not already exist on type
     // Add an "id" field to the object type.
+    //
     type.getFields().id = {
       name: 'id',
       type: GraphQLID,
       description: 'Unique ID',
       args: [],
-      resolve: () => null,
+      resolve: defaultFieldResolver,
     };
+
+    // Modify schema with input types generated based off of the given type
+    this.addInputTypes(type);
 
     // Modify root Mutation type to add create, update, upsert, and remove mutations
     this.addMutations(type);
 
     // Modify root Query type to add "find one" and "find many" queries
     this.addQueries(type);
+  }
+
+  private addInputTypes(type: GraphQLObjectType) {
+    const names = generateFieldNames(type.name);
+
+    // Create an input type with identical fields as the current type.
+    // Since input type fields can't have resolvers we omit them.
+    this.schema.getTypeMap()[names.input.type] = new GraphQLInputObjectType({
+      name: names.input.type,
+      fields: () => omitResolvers(type.getFields()),
+    });
   }
 
   private addMutations(type: GraphQLObjectType) {
@@ -40,10 +65,10 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       args: [
         {
           name: 'data',
-          type: new GraphQLNonNull(type),
+          type: (this.schema.getType(names.input.type)),
         },
       ],
-      resolve: () => null,
+      resolve: defaultFieldResolver,
     };
 
     (this.schema.getMutationType() as any).getFields()[names.mutation.update] = {
@@ -53,10 +78,10 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       args: [
         {
           name: 'data',
-          type: new GraphQLNonNull(type),
+          type: (this.schema.getType(names.input.type)),
         },
       ],
-      resolve: () => null,
+      resolve: defaultFieldResolver,
     };
 
     (this.schema.getMutationType() as any).getFields()[names.mutation.upsert] = {
@@ -66,10 +91,10 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       args: [
         {
           name: 'data',
-          type: new GraphQLNonNull(type),
+          type: (this.schema.getType(names.input.type)),
         },
       ],
-      resolve: () => null,
+      resolve: defaultFieldResolver,
     };
 
     (this.schema.getMutationType() as any).getFields()[names.mutation.remove] = {
@@ -77,7 +102,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       type,
       description: `Remove a ${type.name}`,
       args: [],
-      resolve: () => null,
+      resolve: defaultFieldResolver,
     };
   }
 
@@ -89,7 +114,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       type,
       description: `Find one ${type.name}`,
       args: [],
-      resolve: () => null,
+      resolve: defaultFieldResolver,
     };
 
     this.schema.getQueryType().getFields()[names.query.many] = {
@@ -97,7 +122,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       type,
       description: `Find multiple ${pluralize.plural(type.name)}`,
       args: [],
-      resolve: () => null,
+      // resolve: () => null,
     };
   }
 }

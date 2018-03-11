@@ -8,17 +8,24 @@ exports[`ModelDirective produces the expected schema 1`] = `
   id: ID
 }
 
+input FooInputType {
+  name: String
+
+  \\"\\"\\"Unique ID\\"\\"\\"
+  id: ID
+}
+
 type Mutation {
   _: Boolean
 
   \\"\\"\\"Create a Foo\\"\\"\\"
-  createFoo(data: Foo!): Foo
+  createFoo(data: FooInputType): Foo
 
   \\"\\"\\"Update a Foo\\"\\"\\"
-  updateFoo(data: Foo!): Foo
+  updateFoo(data: FooInputType): Foo
 
   \\"\\"\\"Update a Foo or create it if it doesn't exist\\"\\"\\"
-  upsertFoo(data: Foo!): Foo
+  upsertFoo(data: FooInputType): Foo
 
   \\"\\"\\"Remove a Foo\\"\\"\\"
   removeFoo: Foo
