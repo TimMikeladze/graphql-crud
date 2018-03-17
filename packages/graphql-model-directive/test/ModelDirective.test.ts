@@ -27,7 +27,7 @@ describe('ModelDirective', () => {
 
   const schema = makeExecutableSchema({
     typeDefs,
-    directives: {
+    schemaDirectives: {
       model: ModelDirective,
     } as any,
   });

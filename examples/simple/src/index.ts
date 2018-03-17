@@ -1,8 +1,7 @@
 import { graphiqlExpress, graphqlExpress } from 'apollo-server-express';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
-import { printSchema } from 'graphql';
-import model, { ModelDirective } from 'graphql-model-directive';
+import modelDirectives, { ModelDirective } from 'graphql-model-directive';
 import { MongoStorage } from 'graphql-model-mongo';
 import { makeExecutableSchema } from 'graphql-tools';
 
@@ -24,16 +23,14 @@ const typeDefs = `
 
 const schema = makeExecutableSchema({
   typeDefs,
-  directives: {
-    model: ModelDirective,
+  schemaDirectives: {
+    ...modelDirectives,
   } as any,
 });
 
 const app = express();
 
 app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
-app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' })); // if you want GraphiQL enabled
+app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 app.listen(PORT);
-
-console.log(printSchema(schema));

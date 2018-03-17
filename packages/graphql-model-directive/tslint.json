@@ -5,7 +5,7 @@
   "rules": {
     "no-implicit-dependencies": [
       true,
-      "dev"
+      "peer"
     ],
     "no-shadowed-variable": false
   }

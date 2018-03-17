@@ -30,6 +30,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       description: 'Unique ID',
       args: [],
       resolve: defaultFieldResolver,
+      isDeprecated: false,
     };
 
     // Modify schema with input types generated based off of the given type
@@ -69,6 +70,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
         },
       ],
       resolve: defaultFieldResolver,
+      isDeprecated: false,
     };
 
     (this.schema.getMutationType() as any).getFields()[names.mutation.update] = {
@@ -82,6 +84,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
         },
       ],
       resolve: defaultFieldResolver,
+      isDeprecated: false,
     };
 
     (this.schema.getMutationType() as any).getFields()[names.mutation.upsert] = {
@@ -95,6 +98,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
         },
       ],
       resolve: defaultFieldResolver,
+      isDeprecated: false,
     };
 
     (this.schema.getMutationType() as any).getFields()[names.mutation.remove] = {
@@ -103,6 +107,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       description: `Remove a ${type.name}`,
       args: [],
       resolve: defaultFieldResolver,
+      isDeprecated: false,
     };
   }
 
@@ -115,6 +120,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       description: `Find one ${type.name}`,
       args: [],
       resolve: defaultFieldResolver,
+      isDeprecated: false,
     };
 
     this.schema.getQueryType().getFields()[names.query.many] = {
@@ -122,6 +128,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       type,
       description: `Find multiple ${pluralize.plural(type.name)}`,
       args: [],
+      isDeprecated: false,
       // resolve: () => null,
     };
   }
