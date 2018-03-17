@@ -5,7 +5,11 @@ import {
 
 describe('MongoStore', () => {
   const mongo = new MongoStore({
-    connection: 'mongodb://localhost/test',
+    connection: 'mongodb://localhost/graphql-model-mongo',
+  });
+
+  beforeEach(async () => {
+    await mongo.db.dropDatabase();
   });
 
   describe('create', () => {
@@ -26,7 +30,7 @@ describe('MongoStore', () => {
     });
   });
 
-  describe('find', () => {
+  describe('find one', () => {
     it('can find one', async () => {
       const { id } = await mongo.create({
         data: {
@@ -61,6 +65,58 @@ describe('MongoStore', () => {
         } as any,
       });
       expect(res).toBeNull();
+    });
+  });
+
+  describe('find many', () => {
+    it('can find many', async () => {
+      await mongo.create({
+        data: {
+          name: 'foo',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      await mongo.create({
+        data: {
+          name: 'foo',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      const res = await mongo.find({
+        where: {
+
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      expect(res[0]).toMatchObject({
+        name: 'foo',
+      });
+
+      expect(res[1]).toMatchObject({
+        name: 'foo',
+      });
+
+      expect(res).toHaveLength(2);
+    });
+    it('returns empty array if not found', async () => {
+      const res = await mongo.find({
+        where: {
+          id: 'xxxxxxxxxxxx',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+      expect(res).toHaveLength(0);
     });
   });
 });

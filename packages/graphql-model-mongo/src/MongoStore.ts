@@ -16,7 +16,7 @@ export interface MongoStoreOptions {
 }
 
 export class MongoStore implements Store {
-  private db;
+  public db;
   constructor(options: MongoStoreOptions) {
     this.db = mongoist(options.connection, options.options);
   }
@@ -52,6 +52,9 @@ export class MongoStore implements Store {
     };
   }
   private formatInput(object) {
+    if (!object) {
+      return null;
+    }
     if (!object.id) {
       return object;
     }
