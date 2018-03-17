@@ -41,6 +41,10 @@ export interface UpdateResolverArgs {
   upsert: boolean;
 }
 
+export interface RemoveResolverArgs {
+  where: any;
+}
+
 export class ModelDirective extends SchemaDirectiveVisitor {
   public visitObject(type: GraphQLObjectType) {
     // TODO check that id field does not already exist on type
@@ -137,10 +141,20 @@ export class ModelDirective extends SchemaDirectiveVisitor {
 
     (this.schema.getMutationType() as any).getFields()[names.mutation.remove] = {
       name: names.mutation.remove,
-      type,
+      type: GraphQLBoolean,
       description: `Remove a ${type.name}`,
-      args: [],
-      resolve: defaultFieldResolver,
+      args: [
+        {
+          name: 'where',
+          type: (this.schema.getType(names.input.type)),
+        } as any,
+      ],
+      resolve: (root, args: RemoveResolverArgs, context: ResolverContext) => {
+        return context.directives.model.store.remove({
+          where: args.where,
+          type,
+        });
+      },
       isDeprecated: false,
     };
   }

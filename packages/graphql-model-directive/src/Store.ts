@@ -39,23 +39,17 @@ export interface StoreUpdateProps {
 
 export type StoreUpdateReturn = boolean;
 
-export interface StoreUpsertProps {
-  data: object;
-  where?: object;
-  type: GraphQLNamedType;
-}
-
-export type StoreUpsertReturn = boolean;
-
 export interface StoreRemoveProps {
   where: object;
   type: GraphQLNamedType;
 }
+
+export type StoreRemoveReturn = boolean;
 
 export interface Store {
   find(props: StoreFindProps): Promise<[StoreFindReturn]>;
   findOne(props: StoreFindOneProps): Promise<StoreFindOneReturn>;
   create(props: StoreCreateProps): Promise<StoreCreateReturn>;
   update(props: StoreUpdateProps): Promise<StoreUpdateReturn>;
-  remove(props: StoreRemoveProps): Promise<object>;
+  remove(props: StoreRemoveProps): Promise<StoreRemoveReturn>;
 }

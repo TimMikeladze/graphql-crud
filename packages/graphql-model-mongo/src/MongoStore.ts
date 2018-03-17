@@ -6,10 +6,10 @@ import {
   StoreFindOneReturn,
   StoreFindProps,
   StoreFindReturn,
+  StoreRemoveProps,
+  StoreRemoveReturn,
   StoreUpdateProps,
   StoreUpdateReturn,
-  StoreUpsertProps,
-  StoreUpsertReturn,
 } from 'graphql-model-directive';
 import { cloneDeep } from 'lodash';
 import mongoist from 'mongoist';
@@ -45,6 +45,12 @@ export class MongoStore implements Store {
       {
         upsert: props.upsert,
       },
+    );
+    return res.n > 0;
+  }
+  public async remove(props: StoreRemoveProps): Promise<StoreRemoveReturn> {
+    const res = await this.db[props.type.name].remove(
+      this.formatInput(props.where),
     );
     return res.n > 0;
   }

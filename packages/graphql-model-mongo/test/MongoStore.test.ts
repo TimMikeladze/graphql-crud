@@ -215,4 +215,89 @@ describe('MongoStore', () => {
       expect(res).toBe(false);
     });
   });
+
+  describe('remove', () => {
+    it('removes all matching', async () => {
+      await mongo.create({
+        data: {
+          name: 'foo',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      await mongo.create({
+        data: {
+          name: 'foo',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      const res = await mongo.remove({
+        where: {
+          name: 'foo',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      expect(res).toBe(true);
+
+      const found = await mongo.find({
+        where: {
+          name: 'foo',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      expect(found).toHaveLength(0);
+    });
+    it('does not remove not matching', async () => {
+      await mongo.create({
+        data: {
+          name: 'foo',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      await mongo.create({
+        data: {
+          name: 'foo2',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      const res = await mongo.remove({
+        where: {
+          name: 'foo',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      expect(res).toBe(true);
+
+      const found = await mongo.find({
+        where: {
+
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      expect(found).toHaveLength(1);
+    });
+  });
 });

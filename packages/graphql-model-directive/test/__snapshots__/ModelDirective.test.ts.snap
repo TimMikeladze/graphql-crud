@@ -25,7 +25,7 @@ type Mutation {
   updateFoo(data: FooInputType, where: FooInputType, upsert: Boolean): Boolean
 
   \\"\\"\\"Remove a Foo\\"\\"\\"
-  removeFoo: Foo
+  removeFoo(where: FooInputType): Boolean
 }
 
 type Query {
