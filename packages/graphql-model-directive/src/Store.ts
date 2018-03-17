@@ -6,7 +6,8 @@ export interface StoreFindProps {
 }
 
 export interface StoreFindReturn {
-  where: object;
+  id: string;
+  [key: string]: any;
 }
 
 export interface StoreFindOneProps {
@@ -31,23 +32,29 @@ export interface StoreCreateReturn {
 
 export interface StoreUpdateProps {
   data: object;
+  type: GraphQLNamedType;
   where?: object;
 }
+
+export type StoreUpdateReturn = boolean;
 
 export interface StoreUpsertProps {
   data: object;
   where?: object;
+  type: GraphQLNamedType;
+
 }
 
 export interface StoreRemoveProps {
   where: object;
+  type: GraphQLNamedType;
 }
 
 export interface Store {
-  find(props: StoreFindProps): Promise<StoreFindReturn>;
+  find(props: StoreFindProps): Promise<[StoreFindReturn]>;
   findOne(props: StoreFindOneProps): Promise<StoreFindOneReturn>;
   create(props: StoreCreateProps): Promise<StoreCreateReturn>;
-  update(props: StoreUpdateProps): Promise<object>;
+  update(props: StoreUpdateProps): Promise<StoreUpdateReturn>;
   upsert(props: StoreUpsertProps): Promise<object>;
   remove(props: StoreRemoveProps): Promise<object>;
 }

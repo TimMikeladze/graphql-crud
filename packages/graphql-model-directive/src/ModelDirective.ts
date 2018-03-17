@@ -1,5 +1,6 @@
 import {
   defaultFieldResolver,
+  GraphQLBoolean,
   GraphQLID,
   GraphQLInputObjectType,
   GraphQLList,
@@ -31,6 +32,11 @@ export interface FindOneResolverArgs {
 }
 
 export interface FindResolverArgs {
+  where: any;
+}
+
+export interface UpdateResolverArgs {
+  data: any;
   where: any;
 }
 
@@ -99,16 +105,25 @@ export class ModelDirective extends SchemaDirectiveVisitor {
 
     (this.schema.getMutationType() as any).getFields()[names.mutation.update] = {
       name: names.mutation.update,
-      type,
+      type: GraphQLBoolean,
       description: `Update a ${type.name}`,
       args: [
         {
           name: 'data',
           type: (this.schema.getType(names.input.type)),
         },
-
+        {
+          name: 'where',
+          type: (this.schema.getType(names.input.type)),
+        } as any,
       ],
-      resolve: defaultFieldResolver,
+      resolve: (root, args: UpdateResolverArgs, context: ResolverContext) => {
+        return context.directives.model.store.update({
+          where: args.where,
+          data: args.data,
+          type,
+        });
+      },
       isDeprecated: false,
     };
 
@@ -116,7 +131,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
 
     (this.schema.getMutationType() as any).getFields()[names.mutation.upsert] = {
       name: names.mutation.upsert,
-      type,
+      type: GraphQLBoolean,
       description: `Update a ${type.name} or create it if it doesn't exist`,
       args: [
         {

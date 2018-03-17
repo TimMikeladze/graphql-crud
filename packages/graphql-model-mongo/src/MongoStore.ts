@@ -6,6 +6,8 @@ import {
   StoreFindOneReturn,
   StoreFindProps,
   StoreFindReturn,
+  StoreUpdateProps,
+  StoreUpdateReturn,
 } from 'graphql-model-directive';
 import { cloneDeep } from 'lodash';
 import mongoist from 'mongoist';
@@ -24,13 +26,17 @@ export class MongoStore implements Store {
     const res = await this.db[props.type.name].findOne(this.formatInput(props.where));
     return this.formatOutput(res);
   }
-  public async find(props: StoreFindProps): Promise<StoreFindReturn> {
+  public async find(props: StoreFindProps): Promise<[StoreFindReturn]> {
     const res = await this.db[props.type.name].find(this.formatInput(props.where));
     return this.formatOutput(res);
   }
   public async create(props: StoreCreateProps): Promise<StoreCreateReturn> {
     const res = await this.db[props.type.name].insert(props.data);
     return this.formatOutput(res);
+  }
+  public async update(props: StoreUpdateProps): Promise<StoreUpdateReturn> {
+    const res = await this.db[props.type.name].update(this.formatInput(props.where), props.data);
+    return res.nModified > 0;
   }
   // Adds an `id` field to the output
   private formatOutput(object) {

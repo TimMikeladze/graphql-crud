@@ -119,4 +119,69 @@ describe('MongoStore', () => {
       expect(res).toHaveLength(0);
     });
   });
+
+  describe('update', () => {
+    it('updates existing', async () => {
+      const { id } = await mongo.create({
+        data: {
+          name: 'foo',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      const res = await mongo.update({
+        where: {
+          id,
+        },
+        data: {
+          name: 'foo2',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      expect(res).toBe(true);
+
+      const found = await mongo.findOne({
+        where: {
+          id,
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      expect(found).toMatchObject({
+        id: mongoist.ObjectId(id),
+        name: 'foo2',
+      });
+    });
+    it('returns false if no matches', async () => {
+      await mongo.create({
+        data: {
+          name: 'foo',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      const res = await mongo.update({
+        where: {
+          name: 'foo2',
+        },
+        data: {
+          name: 'foo2',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      expect(res).toBe(false);
+    });
+  });
 });
