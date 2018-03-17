@@ -9,7 +9,7 @@
   "author": "Intelight",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
-  "license": "UNLICENSED",
+  "license": "MIT",
   "private": true,
   "scripts": {
     "build": "rimraf lib && tsc --p ./tsconfig.prod.json",
