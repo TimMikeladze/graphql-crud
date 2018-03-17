@@ -22,10 +22,7 @@ type Mutation {
   createFoo(data: FooInputType): Foo
 
   \\"\\"\\"Update a Foo\\"\\"\\"
-  updateFoo(data: FooInputType, where: FooInputType): Boolean
-
-  \\"\\"\\"Update a Foo or create it if it doesn't exist\\"\\"\\"
-  upsertFoo(data: FooInputType): Boolean
+  updateFoo(data: FooInputType, where: FooInputType, upsert: Boolean): Boolean
 
   \\"\\"\\"Remove a Foo\\"\\"\\"
   removeFoo: Foo

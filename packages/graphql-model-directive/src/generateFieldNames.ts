@@ -10,7 +10,6 @@ export const generateFieldNames = (name) => {
         create: `Create${pluralize.singular(pascalCase(name))}InputType`,
         remove: `Remove${pluralize.singular(pascalCase(name))}InputType`,
         update: `Update${pluralize.singular(pascalCase(name))}InputType`,
-        upsert: `Upsert${pluralize.singular(pascalCase(name))}InputType`,
       },
     },
     query: {
@@ -21,7 +20,6 @@ export const generateFieldNames = (name) => {
       create: `create${pluralize.singular(pascalCase(name))}`,
       remove: `remove${pluralize.singular(pascalCase(name))}`,
       update: `update${pluralize.singular(pascalCase(name))}`,
-      upsert: `upsert${pluralize.singular(pascalCase(name))}`,
     },
   };
 

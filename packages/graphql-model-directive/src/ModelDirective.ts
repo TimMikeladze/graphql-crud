@@ -38,6 +38,7 @@ export interface FindResolverArgs {
 export interface UpdateResolverArgs {
   data: any;
   where: any;
+  upsert: boolean;
 }
 
 export class ModelDirective extends SchemaDirectiveVisitor {
@@ -116,30 +117,19 @@ export class ModelDirective extends SchemaDirectiveVisitor {
           name: 'where',
           type: (this.schema.getType(names.input.type)),
         } as any,
+        {
+          name: 'upsert',
+          type: GraphQLBoolean,
+        } as any,
       ],
       resolve: (root, args: UpdateResolverArgs, context: ResolverContext) => {
         return context.directives.model.store.update({
           where: args.where,
           data: args.data,
+          upsert: args.upsert,
           type,
         });
       },
-      isDeprecated: false,
-    };
-
-    // upsert mutation
-
-    (this.schema.getMutationType() as any).getFields()[names.mutation.upsert] = {
-      name: names.mutation.upsert,
-      type: GraphQLBoolean,
-      description: `Update a ${type.name} or create it if it doesn't exist`,
-      args: [
-        {
-          name: 'data',
-          type: (this.schema.getType(names.input.type)),
-        },
-      ],
-      resolve: defaultFieldResolver,
       isDeprecated: false,
     };
 

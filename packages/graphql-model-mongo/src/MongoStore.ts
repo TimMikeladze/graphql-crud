@@ -8,6 +8,8 @@ import {
   StoreFindReturn,
   StoreUpdateProps,
   StoreUpdateReturn,
+  StoreUpsertProps,
+  StoreUpsertReturn,
 } from 'graphql-model-directive';
 import { cloneDeep } from 'lodash';
 import mongoist from 'mongoist';
@@ -35,8 +37,16 @@ export class MongoStore implements Store {
     return this.formatOutput(res);
   }
   public async update(props: StoreUpdateProps): Promise<StoreUpdateReturn> {
-    const res = await this.db[props.type.name].update(this.formatInput(props.where), props.data);
-    return res.nModified > 0;
+    const res = await this.db[props.type.name].update(
+      this.formatInput(props.where),
+      {
+        $set: props.data,
+      },
+      {
+        upsert: props.upsert,
+      },
+    );
+    return res.n > 0;
   }
   // Adds an `id` field to the output
   private formatOutput(object) {

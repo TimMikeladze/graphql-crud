@@ -159,6 +159,37 @@ describe('MongoStore', () => {
         name: 'foo2',
       });
     });
+    it('can upsert if no matches', async () => {
+      const res = await mongo.update({
+        where: {
+          name: 'fooUpserted',
+        },
+        data: {
+          name: 'fooUpserted',
+        },
+        upsert: true,
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      expect(res).toBe(true);
+
+      const found = await mongo.findOne({
+        where: {
+          name: 'fooUpserted',
+        },
+        type: {
+          name: 'Foo',
+        } as any,
+      });
+
+      expect(found).toMatchObject({
+        name: 'fooUpserted',
+        id: expect.any(mongoist.ObjectId),
+      });
+
+    });
     it('returns false if no matches', async () => {
       await mongo.create({
         data: {

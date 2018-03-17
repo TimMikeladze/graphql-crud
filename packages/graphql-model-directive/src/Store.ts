@@ -34,6 +34,7 @@ export interface StoreUpdateProps {
   data: object;
   type: GraphQLNamedType;
   where?: object;
+  upsert?: boolean;
 }
 
 export type StoreUpdateReturn = boolean;
@@ -42,8 +43,9 @@ export interface StoreUpsertProps {
   data: object;
   where?: object;
   type: GraphQLNamedType;
-
 }
+
+export type StoreUpsertReturn = boolean;
 
 export interface StoreRemoveProps {
   where: object;
@@ -55,6 +57,5 @@ export interface Store {
   findOne(props: StoreFindOneProps): Promise<StoreFindOneReturn>;
   create(props: StoreCreateProps): Promise<StoreCreateReturn>;
   update(props: StoreUpdateProps): Promise<StoreUpdateReturn>;
-  upsert(props: StoreUpsertProps): Promise<object>;
   remove(props: StoreRemoveProps): Promise<object>;
 }
