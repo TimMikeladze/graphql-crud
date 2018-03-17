@@ -17,7 +17,25 @@ import * as pluralize from 'pluralize';
 import {
   generateFieldNames,
   omitResolvers,
+  Store,
 } from './';
+
+export interface ResolverContext {
+  directives: {
+    model: {
+      store: Store;
+    },
+  };
+  [key: string]: any;
+}
+
+export interface CreateResolverArgs {
+  data: any;
+}
+
+export interface FindOneResolverArgs {
+  where: any;
+}
 
 export class ModelDirective extends SchemaDirectiveVisitor {
   public visitObject(type: GraphQLObjectType) {
@@ -59,6 +77,8 @@ export class ModelDirective extends SchemaDirectiveVisitor {
 
     // TODO add check to make sure mutation root type is defined and if not create it
 
+    // create mutation
+
     (this.schema.getMutationType() as any).getFields()[names.mutation.create] = {
       name: names.mutation.create,
       type,
@@ -69,9 +89,16 @@ export class ModelDirective extends SchemaDirectiveVisitor {
           type: (this.schema.getType(names.input.type)),
         },
       ],
-      resolve: defaultFieldResolver,
+      resolve: (root, args: CreateResolverArgs, context: ResolverContext) => {
+        return context.directives.model.store.create({
+          data: args.data,
+          type,
+        });
+      },
       isDeprecated: false,
     };
+
+    // update mutation
 
     (this.schema.getMutationType() as any).getFields()[names.mutation.update] = {
       name: names.mutation.update,
@@ -82,10 +109,13 @@ export class ModelDirective extends SchemaDirectiveVisitor {
           name: 'data',
           type: (this.schema.getType(names.input.type)),
         },
+
       ],
       resolve: defaultFieldResolver,
       isDeprecated: false,
     };
+
+    // upsert mutation
 
     (this.schema.getMutationType() as any).getFields()[names.mutation.upsert] = {
       name: names.mutation.upsert,
@@ -101,6 +131,8 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       isDeprecated: false,
     };
 
+    // remove mutation
+
     (this.schema.getMutationType() as any).getFields()[names.mutation.remove] = {
       name: names.mutation.remove,
       type,
@@ -114,14 +146,28 @@ export class ModelDirective extends SchemaDirectiveVisitor {
   private addQueries(type: GraphQLObjectType) {
     const names = generateFieldNames(type.name);
 
+    // find one query
+
     this.schema.getQueryType().getFields()[names.query.one] = {
       name: names.query.one,
       type,
       description: `Find one ${type.name}`,
-      args: [],
-      resolve: defaultFieldResolver,
+      args: [
+        {
+          name: 'where',
+          type: (this.schema.getType(names.input.type)),
+        } as any,
+      ],
+      resolve: (root, args: FindOneResolverArgs, context: ResolverContext) => {
+        return context.directives.model.store.findOne({
+          where: args.where,
+          type,
+        });
+      },
       isDeprecated: false,
     };
+
+    // find many query
 
     this.schema.getQueryType().getFields()[names.query.many] = {
       name: names.query.many,

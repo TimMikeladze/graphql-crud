@@ -2,7 +2,7 @@ export * from './ModelDirective';
 export * from './RelationDirective';
 export * from './DefaultDirective';
 export * from './UniqueDirective';
-export * from './Storage';
+export * from './Store';
 export * from './generateFieldNames';
 export * from './omitResolvers';
 

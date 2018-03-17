@@ -12,7 +12,7 @@
   "license": "UNLICENSED",
   "private": true,
   "scripts": {
-    "start": "nodemon --exec ./node_modules/.bin/ts-node -- ./src/index.ts",
+    "start": "nodemon --exec ./node_modules/.bin/ts-node --watch ../../packages --watch . -- ./src/index.ts",
     "build": "rimraf lib && tsc --p ./tsconfig.prod.json",
     "build:watch": "rimraf lib && tsc -w --p ./tsconfig.prod.json",
     "test": "jest --forceExit",
