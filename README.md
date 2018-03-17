@@ -39,7 +39,7 @@ schema {
 
 const schema = makeExecutableSchema({
   typeDefs,
-  directives: {
+  schemaDirectives: {
     ...model
   },
 });
@@ -76,3 +76,8 @@ type Mutation {
 - `@relation`
 - `@unique`
 - `@default`
+
+## Getting started for development
+
+1. `docker-compose up -d` to start dependent databases.
+1. `npm install` or `yarn install`
