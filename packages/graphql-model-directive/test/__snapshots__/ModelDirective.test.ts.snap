@@ -35,10 +35,10 @@ type Query {
   _: Boolean
 
   \\"\\"\\"Find one Foo\\"\\"\\"
-  foo: Foo
+  foo(where: FooInputType): Foo
 
   \\"\\"\\"Find multiple Foos\\"\\"\\"
-  foos: Foo
+  foos(where: FooInputType): [Foo]
 }
 "
 `;

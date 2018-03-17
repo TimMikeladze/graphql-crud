@@ -1,10 +1,10 @@
 import mongoist from 'mongoist';
 import {
-  MongoStorage,
+  MongoStore,
 } from '../src';
 
-describe('MongoStorage', () => {
-  const mongo = new MongoStorage({
+describe('MongoStore', () => {
+  const mongo = new MongoStore({
     connection: 'mongodb://localhost/test',
   });
 
@@ -54,7 +54,7 @@ describe('MongoStorage', () => {
     it('returns null if not found', async () => {
       const res = await mongo.findOne({
         where: {
-          id: 'does not exist',
+          id: 'xxxxxxxxxxxx',
         },
         type: {
           name: 'Foo',

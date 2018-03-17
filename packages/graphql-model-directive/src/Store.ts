@@ -1,7 +1,11 @@
 import { GraphQLNamedType } from 'graphql';
 
 export interface StoreFindProps {
-  data: object;
+  where: object;
+  type: GraphQLNamedType;
+}
+
+export interface StoreFindReturn {
   where: object;
 }
 
@@ -40,7 +44,7 @@ export interface StoreRemoveProps {
 }
 
 export interface Store {
-  find(props: StoreFindProps): Promise<object>;
+  find(props: StoreFindProps): Promise<StoreFindReturn>;
   findOne(props: StoreFindOneProps): Promise<StoreFindOneReturn>;
   create(props: StoreCreateProps): Promise<StoreCreateReturn>;
   update(props: StoreUpdateProps): Promise<object>;

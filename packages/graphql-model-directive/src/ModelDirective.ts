@@ -1,18 +1,11 @@
 import {
   defaultFieldResolver,
-  getNamedType,
-  getNullableType,
   GraphQLID,
   GraphQLInputObjectType,
-  GraphQLInputType,
-  GraphQLInt,
-  GraphQLNonNull,
+  GraphQLList,
   GraphQLObjectType,
-  GraphQLOutputType,
-  GraphQLScalarType,
 } from 'graphql';
 import { SchemaDirectiveVisitor } from 'graphql-tools';
-import { omitBy } from 'lodash';
 import * as pluralize from 'pluralize';
 import {
   generateFieldNames,
@@ -34,6 +27,10 @@ export interface CreateResolverArgs {
 }
 
 export interface FindOneResolverArgs {
+  where: any;
+}
+
+export interface FindResolverArgs {
   where: any;
 }
 
@@ -171,11 +168,21 @@ export class ModelDirective extends SchemaDirectiveVisitor {
 
     this.schema.getQueryType().getFields()[names.query.many] = {
       name: names.query.many,
-      type,
+      type: new GraphQLList(type),
       description: `Find multiple ${pluralize.plural(type.name)}`,
-      args: [],
+      args: [
+        {
+          name: 'where',
+          type: (this.schema.getType(names.input.type)),
+        } as any,
+      ],
+      resolve: (root, args: FindResolverArgs, context: ResolverContext) => {
+        return context.directives.model.store.find({
+          where: args.where,
+          type,
+        });
+      },
       isDeprecated: false,
-      // resolve: () => null,
     };
   }
 }
