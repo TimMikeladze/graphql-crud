@@ -26,6 +26,7 @@ import { makeExecutableSchema } from 'graphql-tools';
 import { execute } from 'graphql';
 import gql from 'graphql-tag';
 import model from 'graphql-model-directive';
+import MongoStore from 'graphql-model-mongo';
 import typeDefs from './typeDefs';
 
 const typeDefs = `
@@ -61,7 +62,7 @@ const context = {
 execute(
   schema,
   gql`
-  mutate {
+  mutation {
       createItem(
         data: {
           name: "hello world"
@@ -120,5 +121,5 @@ In `examples/simple` run the following:
 
 ## Getting started for development
 
-1. `docker-compose up -d` to start dependent databases.
+1. `docker-compose up -d` to start database dependencies for testing and the example.
 1. `npm install` or `yarn install`

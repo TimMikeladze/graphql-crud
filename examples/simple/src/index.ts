@@ -11,6 +11,11 @@ const PORT = 3000;
 const typeDefs = `
   type Item @model {
     name: String
+    subItem: SubItem
+  }
+
+  type SubItem {
+    name: String
   }
 
   type Query {
@@ -43,5 +48,3 @@ app.use('/graphql', bodyParser.json(), graphqlExpress({ schema, context }));
 app.get('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
 app.listen(PORT);
-
-console.log(printSchema(schema));

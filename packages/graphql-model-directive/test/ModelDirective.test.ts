@@ -21,6 +21,19 @@ describe('ModelDirective', () => {
   const typeDefs = `
   type Foo @model {
     name: String
+    children: Foo
+    parent: Bar
+  }
+
+  type Bar {
+    names: [String]
+    children: [Dummy]
+    parent: Foo
+  }
+
+  type Dummy {
+    names: [String]
+    parent: Bar
   }
   ${baseTypeDefs}
 `;

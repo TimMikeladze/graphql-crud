@@ -66,12 +66,9 @@ export class MongoStore implements Store {
       return object;
     }
     const clonedObject = cloneDeep(object);
-    const id = clonedObject._id;
+    clonedObject.id = clonedObject._id;
     delete clonedObject._id;
-    return {
-      ...clonedObject,
-      id,
-    };
+    return clonedObject;
   }
   private formatInput(object) {
     if (!object) {
@@ -81,12 +78,8 @@ export class MongoStore implements Store {
       return object;
     }
     const clonedObject = cloneDeep(object);
-    // tslint:disable-next-line variable-name
-    const _id = mongoist.ObjectId(clonedObject.id);
+    clonedObject._id = mongoist.ObjectId(clonedObject.id);
     delete clonedObject.id;
-    return {
-      ...clonedObject,
-      _id,
-    };
+    return clonedObject;
   }
 }
