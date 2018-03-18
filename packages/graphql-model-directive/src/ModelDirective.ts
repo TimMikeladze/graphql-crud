@@ -2,15 +2,14 @@ import {
   defaultFieldResolver,
   GraphQLBoolean,
   GraphQLID,
-  GraphQLInputObjectType,
   GraphQLList,
   GraphQLObjectType,
 } from 'graphql';
 import { SchemaDirectiveVisitor } from 'graphql-tools';
 import * as pluralize from 'pluralize';
 import {
+  addInputTypesForObjectType,
   generateFieldNames,
-  omitResolvers,
   Store,
 } from './';
 
@@ -70,14 +69,10 @@ export class ModelDirective extends SchemaDirectiveVisitor {
   }
 
   private addInputTypes(type: GraphQLObjectType) {
-    const names = generateFieldNames(type.name);
-
-    // Create an input type with identical fields as the current type.
-    // Since input type fields can't have resolvers we omit them.
-    this.schema.getTypeMap()[names.input.type] = new GraphQLInputObjectType({
-      name: names.input.type,
-      fields: () => omitResolvers(type.getFields()),
-    });
+    // Generate corresponding input types for the given type.
+    // Each field returning GraphQLObjectType in the given type will also
+    // have input types generated recursively.
+    addInputTypesForObjectType(type, this.schema);
   }
 
   private addMutations(type: GraphQLObjectType) {

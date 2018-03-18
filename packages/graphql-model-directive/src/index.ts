@@ -5,6 +5,7 @@ export * from './UniqueDirective';
 export * from './Store';
 export * from './generateFieldNames';
 export * from './omitResolvers';
+export * from './addInputTypesForObjectType';
 
 import { DefaultDirective } from './DefaultDirective';
 import { ModelDirective } from './ModelDirective';

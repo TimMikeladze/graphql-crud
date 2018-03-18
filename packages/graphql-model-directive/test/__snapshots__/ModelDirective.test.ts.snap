@@ -1,8 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ModelDirective produces the expected schema 1`] = `
-"type Foo {
+"type Bar {
   name: String
+  relation: Dummy
+  child: Dummy
+}
+
+input BarInputType {
+  name: String
+  relation: DummyInputType
+  child: DummyInputType
+}
+
+type Dummy {
+  name: String
+  relation: Bar
+}
+
+input DummyInputType {
+  name: String
+  relation: BarInputType
+}
+
+type Foo {
+  name: String
+  relation: Foo
+  child: Bar
 
   \\"\\"\\"Unique ID\\"\\"\\"
   id: ID
@@ -10,6 +34,8 @@ exports[`ModelDirective produces the expected schema 1`] = `
 
 input FooInputType {
   name: String
+  relation: FooInputType
+  child: BarInputType
 
   \\"\\"\\"Unique ID\\"\\"\\"
   id: ID
