@@ -1,6 +1,8 @@
 # graphql-crud
 
-**Note: this package is under active development**
+[![CircleCI](https://circleci.com/gh/Intelight/graphql-crud.svg?style=svg)](https://circleci.com/gh/Intelight/graphql-crud)
+
+**Note: This package is under active development.**
 
 GraphQL schema directives to generate CRUD queries, mutations and resolvers which are automatically connected to a database.
 
@@ -125,4 +127,4 @@ In `examples/simple` run the following:
 1. `npm install` or `yarn install`.
 1. `npm run link:packages` or `yarn link:packages`.
 1. `npm run build:watch` or `yarn build:watch`
-1. Write code. 
+1. Write code.
