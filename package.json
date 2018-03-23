@@ -9,7 +9,8 @@
     "test:prod": "oao run-script test:prod",
     "lint": "oao run-script lint",
     "nuke": "oao all \"rm -rf node_modules\"; rm -rf node_modules; rm -rf yarn.lock;",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "link:packages": "oao run-script link-packages"
   },
   "workspaces": [
     "packages/*"

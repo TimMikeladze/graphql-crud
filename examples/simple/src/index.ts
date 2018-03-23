@@ -1,9 +1,8 @@
 import { graphiqlExpress, graphqlExpress } from 'apollo-server-express';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
-import { printSchema } from 'graphql';
-import modelDirectives, { ModelDirective } from 'graphql-model-directive';
-import MongoStore from 'graphql-model-mongo';
+import crud from 'graphql-crud';
+import MongoStore from 'graphql-crud-mongo';
 import { makeExecutableSchema } from 'graphql-tools';
 
 const PORT = 3000;
@@ -30,8 +29,8 @@ const typeDefs = `
 const schema = makeExecutableSchema({
   typeDefs,
   schemaDirectives: {
-    ...modelDirectives,
-  } as any,
+    ...crud,
+  },
 });
 
 const context = {

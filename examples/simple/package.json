@@ -4,7 +4,7 @@
   "description": "",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/intelight/graphql-model-directive.git"
+    "url": "git+https://github.com/intelight/graphql-crud.git"
   },
   "author": "Intelight",
   "main": "lib/index.js",

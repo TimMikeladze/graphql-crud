@@ -1,8 +1,8 @@
-# graphql-model-directive
+# graphql-crud
 
 **Note: this package is under active development**
 
-Annotate a GraphQL schema with directives to generate queries and mutations which are automatically connected to a database.
+GraphQL schema directives to generate CRUD queries, mutations and resolvers which are automatically connected to a database.
 
 **Supported databases:**
 
@@ -10,13 +10,13 @@ Annotate a GraphQL schema with directives to generate queries and mutations whic
 
 **Available directives:**
 
-- `@model` - Generates queries and mutations backed by a database for the annotated type.
+- `@model` - Generates queries, mutations and resolvers for the annotated type.
 
 ## Getting started
 
-1. Install core package: `npm install graphql-model-directive` or `yarn add graphql-model-directive`.
+1. Install core package: `npm install graphql-crud` or `yarn add graphql-crud`.
 2. Install a store package:
-    - Mongo: `npm install graphql-model-mongo` or `yarn add graphql-model-mongo`.
+    - Mongo: `npm install graphql-crud-mongo` or `yarn add graphql-crud-mongo`.
 3. Define your schema and annotate it with directives.
 4. Use `makeExecutableSchema` to generate the schema.
 5. Instantiate and assign your store to `directives.model.store` on the GraphQL `context`.
@@ -25,8 +25,8 @@ Annotate a GraphQL schema with directives to generate queries and mutations whic
 import { makeExecutableSchema } from 'graphql-tools';
 import { execute } from 'graphql';
 import gql from 'graphql-tag';
-import model from 'graphql-model-directive';
-import MongoStore from 'graphql-model-mongo';
+import crud from 'graphql-crud';
+import MongoStore from 'graphql-crud-mongo';
 import typeDefs from './typeDefs';
 
 const typeDefs = `
@@ -47,7 +47,7 @@ type Query {
 const schema = makeExecutableSchema({
   typeDefs,
   schemaDirectives: {
-    ...model
+    ...crud
   },
 });
 
@@ -122,4 +122,7 @@ In `examples/simple` run the following:
 ## Getting started for development
 
 1. `docker-compose up -d` to start database dependencies for testing and the example.
-1. `npm install` or `yarn install`
+1. `npm install` or `yarn install`.
+1. `npm run link:packages` or `yarn link:packages`.
+1. `npm run build:watch` or `yarn build:watch`
+1. Write code. 

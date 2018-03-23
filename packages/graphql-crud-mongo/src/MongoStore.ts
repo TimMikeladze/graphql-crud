@@ -10,7 +10,7 @@ import {
   StoreRemoveReturn,
   StoreUpdateProps,
   StoreUpdateReturn,
-} from 'graphql-model-directive';
+} from 'graphql-crud';
 import { cloneDeep } from 'lodash';
 import mongoist from 'mongoist';
 
