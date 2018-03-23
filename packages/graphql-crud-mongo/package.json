@@ -10,7 +10,6 @@
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "license": "MIT",
-  "private": true,
   "scripts": {
     "build": "rimraf lib && tsc --p ./tsconfig.prod.json",
     "build:watch": "rimraf lib && tsc -w --p ./tsconfig.prod.json",
