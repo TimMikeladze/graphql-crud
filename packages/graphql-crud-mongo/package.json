@@ -1,6 +1,6 @@
 {
   "name": "graphql-crud-mongo",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Implementation of a Mongo store for graphql-crud.",
   "repository": {
     "type": "git",
