@@ -1,76 +1,37 @@
 {
-  "name": "@intelight/graphql-crud-directives",
-  "version": "0.0.1",
-  "description": "",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intelight/graphql-auto-schema.git"
-  },
-  "author": "Intelight",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
-  "license": "UNLICENSED",
   "private": true,
+  "version": "0.0.0",
   "scripts": {
-    "build": "rimraf lib && tsc --p ./tsconfig.prod.json",
-    "build:watch": "rimraf lib && tsc -w --p ./tsconfig.prod.json",
-    "test": "jest --forceExit",
-    "test:watch": "jest --watch",
-    "test:prod": "npm run lint && npm run test -- --coverage --no-cache",
-    "lint": "tslint --project ./tsconfig.json 'src/**/*.{ts,tsx}' && tslint --project ./tsconfig.json 'test/**/*.{ts,tsx}'",
-    "commit": "git-cz"
+    "start": "oao run-script start --parallel",
+    "build": "oao run-script build",
+    "build:watch": "oao run-script build:watch --parallel",
+    "test": "oao run-script test",
+    "test:watch": "oao run-script test:watch --parallel",
+    "test:prod": "oao run-script test:prod",
+    "lint": "oao run-script lint",
+    "nuke": "oao all \"rm -rf node_modules\"; rm -rf node_modules; rm -rf yarn.lock;",
+    "commit": "git-cz",
+    "link:packages": "oao run-script link-packages",
+    "publish:packages": "yarn build; oao publish"
   },
-  "engines": {
-    "node": ">=8.9.0"
-  },
+  "workspaces": [
+    "packages/*"
+  ],
   "config": {
     "commitizen": {
       "path": "node_modules/cz-conventional-changelog"
     },
     "validate-commit-msg": {
       "types": "conventional-commit-types",
-      "helpMessage": "Use \"npm run commit\" instead, we use conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
+      "helpMessage": "Use \"yarn run commit\" instead, we use conventional-changelog format :) (https://github.com/commitizen/cz-cli)"
     }
   },
-  "jest": {
-    "transform": {
-      ".(ts|tsx)": "../../node_modules/ts-jest/preprocessor.js"
-    },
-    "testMatch": [
-      "<rootDir>/test/**/?(*.)(test).(ts|js)?(x)"
-    ],
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "json"
-    ],
-    "collectCoverageFrom": [
-      "test/**/*.{js,jsx,ts,tsx}"
-    ]
-  },
-  "dependencies": {
-    "camel-case": "^3.0.0",
-    "clone-deep": "^3.0.1",
-    "graphql": "git://github.com/graphql/graphql-js.git#npm",
-    "graphql-tag": "^2.8.0",
-    "graphql-tools": "^2.21.0",
-    "lodash": "^4.17.5",
-    "pascal-case": "^2.0.1",
-    "pluralize": "^7.0.0"
-  },
   "devDependencies": {
-    "@intelight/tslint": "0.0.9",
-    "@types/graphql": "0.12.4",
-    "@types/jest": "22.1.4",
-    "@types/node": "9.4.6",
     "commitizen": "^2.9.6",
     "cz-conventional-changelog": "^2.1.0",
-    "jest": "22.4.2",
-    "rimraf": "2.6.2",
-    "ts-jest": "22.4.1",
-    "ts-node": "5.0.1",
-    "tslint": "5.9.1",
-    "typescript": "2.7.2"
+    "graphql": "^0.13.2",
+    "graphql-tools": "^2.23.1",
+    "lint-staged": "^7.0.0",
+    "oao": "^1.4.0"
   }
 }

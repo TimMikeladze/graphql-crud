@@ -1,0 +1,62 @@
+{
+  "name": "graphql-crud-mongo",
+  "version": "0.0.1",
+  "description": "Implementation of a Mongo store for graphql-crud.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/intelight/graphql-crud-mongo.git"
+  },
+  "author": "Intelight",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "build": "rimraf lib && tsc --p ./tsconfig.prod.json",
+    "build:watch": "rimraf lib && tsc -w --p ./tsconfig.prod.json",
+    "test": "jest --forceExit",
+    "test:watch": "jest --watch",
+    "test:prod": "yarn run lint && yarn run test --coverage --no-cache",
+    "lint": "tslint --project ./tsconfig.json 'src/**/*.{ts,tsx}' && tslint --project ./tsconfig.json 'test/**/*.{ts,tsx}'",
+    "link:packages": "yarn link; yarn link graphql-crud"
+  },
+  "engines": {
+    "node": ">=8.9.0"
+  },
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "../../node_modules/ts-jest/preprocessor.js"
+    },
+    "testMatch": [
+      "<rootDir>/test/**/?(*.)(test).(ts|js)?(x)"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "json"
+    ],
+    "collectCoverageFrom": [
+      "test/**/*.{js,jsx,ts,tsx}"
+    ]
+  },
+  "peerDependencies": {
+    "graphql-crud": "0.0.1"
+  },
+  "dependencies": {
+    "lodash": "^4.17.5",
+    "mongoist": "^1.7.1"
+  },
+  "devDependencies": {
+    "@intelight/tslint": "0.0.9",
+    "@types/jest": "22.2.0",
+    "@types/node": "9.4.7",
+    "graphql-crud": "0.0.1",
+    "jest": "22.4.2",
+    "rimraf": "2.6.2",
+    "ts-jest": "22.4.1",
+    "ts-node": "5.0.1",
+    "tslint": "5.9.1",
+    "typescript": "2.7.2"
+  }
+}
