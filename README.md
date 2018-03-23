@@ -10,6 +10,8 @@ GraphQL schema directives to generate CRUD queries, mutations and resolvers whic
 
 - Mongo
 
+_Database of your choice missing? Adding one is easy  - implement the [Store](https://github.com/Intelight/graphql-crud/blob/master/packages/graphql-crud/src/Store.ts) interface._
+
 **Available directives:**
 
 - `@model` - Generates queries, mutations and resolvers for the annotated type.
