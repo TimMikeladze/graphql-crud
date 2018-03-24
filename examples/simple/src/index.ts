@@ -9,12 +9,12 @@ const PORT = 3000;
 
 const typeDefs = `
   type Item @model {
-    name: String
+    name: String!
     subItem: SubItem
   }
 
   type SubItem {
-    name: String
+    name: String!
   }
 
   type Query {

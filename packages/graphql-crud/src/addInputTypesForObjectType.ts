@@ -1,29 +1,29 @@
 import {
-  getNamedType,
   GraphQLInputObjectType,
   GraphQLList,
   GraphQLObjectType,
   GraphQLSchema,
 } from 'graphql';
 import {
+  getInputType,
+  isValidInputType,
   omitResolvers,
+  toInputObjectTypeName,
 } from './';
 
-export const toInputObjectName = (name: string): string => `${name}InputType`;
+export interface AddInputTypesForObjectTypeProps {
+  objectType: GraphQLObjectType;
+  schema: GraphQLSchema;
+  prefix?: string;
+  modifyField?: (field: any) => any;
+}
 
-export const isValidInputType = (type, schema: GraphQLSchema): boolean => {
-  if (type instanceof GraphQLList) {
-    return isValidInputType(getNamedType(type), schema);
-  }
-  return !(type instanceof GraphQLObjectType);
-};
-
-export const getInputType = (object: any, schema: GraphQLSchema): GraphQLInputObjectType => {
-  const type = schema.getType(toInputObjectName(object.type.name));
-  return type as GraphQLInputObjectType;
-};
-
-export const addInputTypesForObjectType = (objectType: GraphQLObjectType, schema: GraphQLSchema) => {
+export const addInputTypesForObjectType = ({
+  objectType,
+  schema,
+  prefix = '',
+  modifyField = (field) => field,
+}: AddInputTypesForObjectTypeProps) => {
   // Fields of an input type cannot have resolvers
   // console.log(objectType);
   const fields = omitResolvers(objectType.getFields());
@@ -31,7 +31,7 @@ export const addInputTypesForObjectType = (objectType: GraphQLObjectType, schema
   // Create the corresponding input type.
   // For example, if given `type Foo` will create `input FooInputType`
   let inputObjectType = new GraphQLInputObjectType({
-    name: toInputObjectName(objectType.name),
+    name: `${prefix}${toInputObjectTypeName(objectType.name)}`,
     fields,
   });
 
@@ -54,7 +54,7 @@ export const addInputTypesForObjectType = (objectType: GraphQLObjectType, schema
 
       if (!isValidInputType(field.type, schema)) {
         // Check if the input type already exists
-        const inputType = getInputType(field, schema);
+        const inputType = getInputType(`${prefix}${field.type.name}`, schema);
         if (inputType) {
           field = {
             name: inputType.name,
@@ -63,7 +63,12 @@ export const addInputTypesForObjectType = (objectType: GraphQLObjectType, schema
         } else {
           // Input type does not exist so we need to create it
           const fieldType = schema.getType(field.type.ofType || field.type.name); // `field.type.ofType` is used in case of a list type
-          const newInputType = addInputTypesForObjectType(fieldType as GraphQLObjectType, schema);
+          const newInputType = addInputTypesForObjectType({
+            objectType: fieldType as GraphQLObjectType,
+            schema,
+            prefix,
+            modifyField,
+         });
           field = {
             name: newInputType.name,
             type: field.type instanceof GraphQLList ? new GraphQLList(newInputType) : newInputType,
@@ -73,7 +78,7 @@ export const addInputTypesForObjectType = (objectType: GraphQLObjectType, schema
 
       return {
         ...res,
-        [key]: field,
+        [key]: modifyField(field),
       };
     }, {});
 

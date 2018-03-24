@@ -1,5 +1,6 @@
 import {
   defaultFieldResolver,
+  getNullableType,
   GraphQLBoolean,
   GraphQLID,
   GraphQLList,
@@ -68,11 +69,30 @@ export class ModelDirective extends SchemaDirectiveVisitor {
     this.addQueries(type);
   }
 
-  private addInputTypes(type: GraphQLObjectType) {
+  private addInputTypes(objectType: GraphQLObjectType) {
     // Generate corresponding input types for the given type.
     // Each field returning GraphQLObjectType in the given type will also
     // have input types generated recursively.
-    addInputTypesForObjectType(type, this.schema);
+    addInputTypesForObjectType({
+      objectType,
+      schema: this.schema,
+    });
+
+    // Often times a type will have required fields which the consumer
+    // does not want to include in every update mutation.
+    // In this case we create additional input types for update mutations.
+    // These types are prefixed with `Update`, (for example: `UpdateFooInputType`)
+    // and all non null fields are replaced with nullable fields.
+    // Note: additional validation is added in the `update` resolver.
+    addInputTypesForObjectType({
+      objectType,
+      schema: this.schema,
+      prefix: 'Update',
+      modifyField: (field) => {
+        field.type = getNullableType(field.type);
+        return field;
+      },
+    });
   }
 
   private addMutations(type: GraphQLObjectType) {
@@ -114,7 +134,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
         },
         {
           name: 'where',
-          type: (this.schema.getType(names.input.type)),
+          type: (this.schema.getType(names.input.mutation.update)),
         } as any,
         {
           name: 'upsert',
