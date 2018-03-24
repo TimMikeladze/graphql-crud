@@ -27,11 +27,11 @@
     }
   },
   "devDependencies": {
-    "commitizen": "^2.9.6",
-    "cz-conventional-changelog": "^2.1.0",
-    "graphql": "^0.13.2",
-    "graphql-tools": "^2.23.1",
-    "lint-staged": "^7.0.0",
-    "oao": "^1.4.0"
+    "commitizen": "2.9.6",
+    "cz-conventional-changelog": "2.1.0",
+    "graphql": "0.13.2",
+    "graphql-tools": "2.23.1",
+    "lint-staged": "7.0.0",
+    "oao": "1.5.1"
   }
 }
