@@ -26,9 +26,9 @@
     tslint-react-recommended "^1.0.15"
     typescript "^2.6.2"
 
-"@types/graphql@0.12.4":
-  version "0.12.4"
-  resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.12.4.tgz#d43bb55d45c6de0178bbd11dd59d04fd42138d94"
+"@types/graphql@0.12.6":
+  version "0.12.6"
+  resolved "https://registry.yarnpkg.com/@types/graphql/-/graphql-0.12.6.tgz#3d619198585fcabe5f4e1adfb5cf5f3388c66c13"
 
 "@types/jest@22.2.0":
   version "22.2.0"
