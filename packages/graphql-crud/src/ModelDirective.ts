@@ -11,7 +11,9 @@ import * as pluralize from 'pluralize';
 import {
   addInputTypesForObjectType,
   generateFieldNames,
+  getInputType,
   Store,
+  validateUpdateInputData,
 } from './';
 
 export interface ResolverContext {
@@ -46,6 +48,8 @@ export interface RemoveResolverArgs {
 }
 
 export class ModelDirective extends SchemaDirectiveVisitor {
+  public static UPDATE_INPUT_TYPE_PREFIX = 'Update';
+
   public visitObject(type: GraphQLObjectType) {
     // TODO check that id field does not already exist on type
     // Add an "id" field to the object type.
@@ -87,7 +91,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
     addInputTypesForObjectType({
       objectType,
       schema: this.schema,
-      prefix: 'Update',
+      prefix: ModelDirective.UPDATE_INPUT_TYPE_PREFIX,
       modifyField: (field) => {
         field.type = getNullableType(field.type);
         return field;
@@ -130,11 +134,11 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       args: [
         {
           name: 'data',
-          type: (this.schema.getType(names.input.type)),
+          type: getInputType(`${ModelDirective.UPDATE_INPUT_TYPE_PREFIX}${type.name}`, this.schema),
         },
         {
           name: 'where',
-          type: (this.schema.getType(names.input.mutation.update)),
+          type: getInputType(`${ModelDirective.UPDATE_INPUT_TYPE_PREFIX}${type.name}`, this.schema),
         } as any,
         {
           name: 'upsert',
@@ -142,6 +146,12 @@ export class ModelDirective extends SchemaDirectiveVisitor {
         } as any,
       ],
       resolve: (root, args: UpdateResolverArgs, context: ResolverContext) => {
+        validateUpdateInputData({
+          data: args.data,
+          type,
+          schema: this.schema,
+        });
+
         return context.directives.model.store.update({
           where: args.where,
           data: args.data,
