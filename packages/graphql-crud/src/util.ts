@@ -1,5 +1,6 @@
 import {
   getNamedType,
+  getNullableType,
   GraphQLInputObjectType,
   GraphQLList,
   GraphQLObjectType,
@@ -12,7 +13,7 @@ export const isValidInputType = (type, schema: GraphQLSchema): boolean => {
   if (type instanceof GraphQLList) {
     return isValidInputType(getNamedType(type), schema);
   }
-  return !(type instanceof GraphQLObjectType);
+  return !(getNullableType(type) instanceof GraphQLObjectType);
 };
 
 export const getInputType = (typeName: string, schema: GraphQLSchema): GraphQLInputObjectType => {

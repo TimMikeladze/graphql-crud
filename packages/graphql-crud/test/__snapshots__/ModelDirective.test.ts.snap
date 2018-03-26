@@ -10,7 +10,7 @@ exports[`ModelDirective produces the expected schema 1`] = `
 input BarInputType {
   names: [String]
   children: [DummyInputType]
-  parent: Foo!
+  parent: FooInputType
 }
 
 type Dummy {
@@ -67,7 +67,7 @@ type Query {
 input UpdateBarInputType {
   names: [String]
   children: [UpdateDummyInputType]
-  parent: Foo
+  parent: UpdateFooInputType
 }
 
 input UpdateDummyInputType {
