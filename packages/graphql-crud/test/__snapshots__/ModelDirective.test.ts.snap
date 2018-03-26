@@ -10,7 +10,7 @@ exports[`ModelDirective produces the expected schema 1`] = `
 input BarInputType {
   names: [String]
   children: [DummyInputType]
-  parent: Foo!
+  parent: FooInputType
 }
 
 type Dummy {
