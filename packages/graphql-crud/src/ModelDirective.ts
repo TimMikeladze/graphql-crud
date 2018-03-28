@@ -1,5 +1,6 @@
 import {
   defaultFieldResolver,
+  getNullableType,
   GraphQLBoolean,
   GraphQLID,
   GraphQLList,
@@ -10,7 +11,9 @@ import * as pluralize from 'pluralize';
 import {
   addInputTypesForObjectType,
   generateFieldNames,
+  getInputType,
   Store,
+  validateUpdateInputData,
 } from './';
 
 export interface ResolverContext {
@@ -45,6 +48,8 @@ export interface RemoveResolverArgs {
 }
 
 export class ModelDirective extends SchemaDirectiveVisitor {
+  public static UPDATE_INPUT_TYPE_PREFIX = 'Update';
+
   public visitObject(type: GraphQLObjectType) {
     // TODO check that id field does not already exist on type
     // Add an "id" field to the object type.
@@ -68,11 +73,30 @@ export class ModelDirective extends SchemaDirectiveVisitor {
     this.addQueries(type);
   }
 
-  private addInputTypes(type: GraphQLObjectType) {
+  private addInputTypes(objectType: GraphQLObjectType) {
     // Generate corresponding input types for the given type.
     // Each field returning GraphQLObjectType in the given type will also
     // have input types generated recursively.
-    addInputTypesForObjectType(type, this.schema);
+    addInputTypesForObjectType({
+      objectType,
+      schema: this.schema,
+    });
+
+    // Often times a type will have required fields which the consumer
+    // does not want to include in every update mutation.
+    // In this case we create additional input types for update mutations.
+    // These types are prefixed with `Update`, (for example: `UpdateFooInputType`)
+    // and all non null fields are replaced with nullable fields.
+    // Note: additional validation is added in the `update` resolver.
+    addInputTypesForObjectType({
+      objectType,
+      schema: this.schema,
+      prefix: ModelDirective.UPDATE_INPUT_TYPE_PREFIX,
+      modifyField: (field) => {
+        field.type = getNullableType(field.type);
+        return field;
+      },
+    });
   }
 
   private addMutations(type: GraphQLObjectType) {
@@ -110,11 +134,11 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       args: [
         {
           name: 'data',
-          type: (this.schema.getType(names.input.type)),
+          type: getInputType(`${ModelDirective.UPDATE_INPUT_TYPE_PREFIX}${type.name}`, this.schema),
         },
         {
           name: 'where',
-          type: (this.schema.getType(names.input.type)),
+          type: getInputType(`${ModelDirective.UPDATE_INPUT_TYPE_PREFIX}${type.name}`, this.schema),
         } as any,
         {
           name: 'upsert',
@@ -122,6 +146,12 @@ export class ModelDirective extends SchemaDirectiveVisitor {
         } as any,
       ],
       resolve: (root, args: UpdateResolverArgs, context: ResolverContext) => {
+        validateUpdateInputData({
+          data: args.data,
+          type,
+          schema: this.schema,
+        });
+
         return context.directives.model.store.update({
           where: args.where,
           data: args.data,
