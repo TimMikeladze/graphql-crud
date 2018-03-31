@@ -4,7 +4,7 @@ exports[`ModelDirective produces the expected schema 1`] = `
 "type Bar {
   names: [String]
   children: [Dummy]
-  parent: Foo
+  parent: Foo!
 }
 
 input BarInputType {
@@ -24,7 +24,7 @@ input DummyInputType {
 }
 
 type Foo {
-  name: String
+  name: String!
   children: Foo
   parent: Bar
 
@@ -33,7 +33,7 @@ type Foo {
 }
 
 input FooInputType {
-  name: String
+  name: String!
   children: FooInputType
   parent: BarInputType
 
@@ -48,7 +48,7 @@ type Mutation {
   createFoo(data: FooInputType): Foo
 
   \\"\\"\\"Update a Foo\\"\\"\\"
-  updateFoo(data: FooInputType, where: FooInputType, upsert: Boolean): Boolean
+  updateFoo(data: UpdateFooInputType, where: UpdateFooInputType, upsert: Boolean): Boolean
 
   \\"\\"\\"Remove a Foo\\"\\"\\"
   removeFoo(where: FooInputType): Boolean
@@ -62,6 +62,26 @@ type Query {
 
   \\"\\"\\"Find multiple Foos\\"\\"\\"
   foos(where: FooInputType): [Foo]
+}
+
+input UpdateBarInputType {
+  names: [String]
+  children: [UpdateDummyInputType]
+  parent: UpdateFooInputType
+}
+
+input UpdateDummyInputType {
+  names: [String]
+  parent: UpdateBarInputType
+}
+
+input UpdateFooInputType {
+  name: String
+  children: UpdateFooInputType
+  parent: UpdateBarInputType
+
+  \\"\\"\\"Unique ID\\"\\"\\"
+  id: ID
 }
 "
 `;

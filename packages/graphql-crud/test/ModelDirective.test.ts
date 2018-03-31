@@ -20,7 +20,7 @@ const baseTypeDefs = `
 describe('ModelDirective', () => {
   const typeDefs = `
   type Foo @model {
-    name: String
+    name: String!
     children: Foo
     parent: Bar
   }
@@ -28,7 +28,7 @@ describe('ModelDirective', () => {
   type Bar {
     names: [String]
     children: [Dummy]
-    parent: Foo
+    parent: Foo!
   }
 
   type Dummy {
