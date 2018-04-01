@@ -59,7 +59,7 @@ export const addInputTypesForObjectType = ({
   // Adds the newly created input type to the type map.
   //
   // Note: the GraphQLObjectType fields of the input type have not yet been replaced.
-  // However wen eed a reference to the input type added to the type map for lookups during recursion.
+  // However we need a reference to the input type added to the type map for lookups during recursion.
   schema.getTypeMap()[inputObjectType.name] = inputObjectType;
 
   // Iterate over each field in the input type.
@@ -76,15 +76,11 @@ export const addInputTypesForObjectType = ({
       if (!isValidInputFieldType(field.type)) {
         // Check if the input type already exists
         const inputType = getInputType(`${prefix}${getNamedType(field.type).name}`, schema);
-        // console.log(`${prefix}${field.type.name} ${inputType}`);
         if (inputType) {
           field = createInputField(field, inputType);
-          // console.log(field);
         } else {
           // Input type does not exist so we need to create it
-          // const fieldType = schema.getType(field.type.ofType || field.type.name); // `field.type.ofType` is used in case of a list type
           const fieldType = getNamedType(field.type);
-          // console.log(fieldType);
           const newInputType = addInputTypesForObjectType({
             objectType: fieldType as GraphQLObjectType,
             schema,
