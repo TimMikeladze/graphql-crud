@@ -8,6 +8,7 @@ import {
 } from 'graphql';
 import {
   getInputType,
+  isNonNullable,
   isValidInputFieldType,
   omitResolvers,
   toInputObjectTypeName,
@@ -23,8 +24,6 @@ export interface AddInputTypesForObjectTypeProps {
 export const createInputField = (field, inputType) => {
   // Create an input field based on the original field's type.
   // If the field is non nullable or a list then it needs to be wrapped with the correct class.
-
-  const isNonNullable = (type) => type.astNode && type.astNode.type.kind === 'NonNullType';
 
   let type = field.type instanceof GraphQLList ? new GraphQLList(inputType) : inputType;
 

@@ -9,6 +9,10 @@ import {
   isPlainObject,
 } from 'lodash';
 
+import {
+  isNonNullable,
+} from './';
+
 export interface ValidateUpdateInputDataProps {
   type: GraphQLObjectType;
   schema: GraphQLSchema;
@@ -21,8 +25,6 @@ export const validateUpdateInputData = (props: ValidateUpdateInputDataProps) => 
   if (isEmpty(props.data)) {
     throw new Error('data input object is missing');
   }
-
-  const isNonNullable = (type) => type.astNode.type.kind === 'NonNullType';
 
   const fields = props.type.getFields();
 

@@ -15,3 +15,5 @@ export const getInputType = (typeName: string, schema: GraphQLSchema): GraphQLIn
   const type = schema.getType(toInputObjectTypeName(typeName));
   return type as GraphQLInputObjectType;
 };
+
+export const isNonNullable = (type) => type.astNode && type.astNode.type.kind === 'NonNullType';
