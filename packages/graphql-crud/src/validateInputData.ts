@@ -13,7 +13,7 @@ import {
   isNonNullable,
 } from './';
 
-export interface ValidateUpdateInputDataProps {
+export interface ValidateInputDataProps {
   type: GraphQLObjectType;
   schema: GraphQLSchema;
   data: object;
@@ -21,7 +21,7 @@ export interface ValidateUpdateInputDataProps {
 
 // For every null value in the input data
 // check that it can be nullable by check the type definition.
-export const validateUpdateInputData = (props: ValidateUpdateInputDataProps) => {
+export const validateInputData = (props: ValidateInputDataProps) => {
   if (isEmpty(props.data)) {
     throw new Error('data input object is missing');
   }
@@ -34,7 +34,7 @@ export const validateUpdateInputData = (props: ValidateUpdateInputDataProps) => 
       const field = fields[key];
       const value = props.data[key];
       if (isPlainObject(value)) {
-        validateUpdateInputData({
+        validateInputData({
           schema: props.schema,
           data: value,
           type: getNullableType(field.type) as any,

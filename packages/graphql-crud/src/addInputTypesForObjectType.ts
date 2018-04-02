@@ -18,7 +18,8 @@ export interface AddInputTypesForObjectTypeProps {
   objectType: GraphQLObjectType;
   schema: GraphQLSchema;
   prefix?: string;
-  modifyField?: (field: any) => any;
+  modifyField?: (field: any, parent: any) => any;
+  parent?: any;
 }
 
 export const createInputField = (field, inputType) => {
@@ -43,7 +44,8 @@ export const addInputTypesForObjectType = ({
   objectType,
   schema,
   prefix = '',
-  modifyField = (field) => field,
+  modifyField = (field, parent) => field,
+  parent = null,
 }: AddInputTypesForObjectTypeProps) => {
   // Fields of an input type cannot have resolvers
   const fields = omitResolvers(objectType.getFields());
@@ -85,6 +87,7 @@ export const addInputTypesForObjectType = ({
             schema,
             prefix,
             modifyField,
+            parent: objectType,
           });
           field = createInputField(field, newInputType);
         }
@@ -92,7 +95,7 @@ export const addInputTypesForObjectType = ({
 
       return {
         ...res,
-        [key]: modifyField(field),
+        [key]: modifyField(field, parent),
       };
     }, {});
 
