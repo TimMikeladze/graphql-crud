@@ -4,6 +4,7 @@ exports[`ModelDirective produces the expected schema 1`] = `
 "type Author {
   name: String
   books: [Book]
+  favoriteBook: Book
 
   \\"\\"\\"Unique ID\\"\\"\\"
   id: ID
@@ -12,6 +13,7 @@ exports[`ModelDirective produces the expected schema 1`] = `
 input AuthorInputType {
   name: String
   books: [BookInputType]
+  favoriteBook: BookInputType
 
   \\"\\"\\"Unique ID\\"\\"\\"
   id: ID
@@ -40,7 +42,7 @@ type Mutation {
   createAuthor(data: AuthorInputType): Author
 
   \\"\\"\\"Update a Author\\"\\"\\"
-  updateAuthor(data: UpdateAuthorInputType, where: UpdateAuthorInputType, upsert: Boolean): Boolean
+  updateAuthor(data: UpdateAuthorInputType, where: UpdateAuthorInputType, upsert: Boolean): Author
 
   \\"\\"\\"Remove a Author\\"\\"\\"
   removeAuthor(where: AuthorInputType): Boolean
@@ -49,7 +51,7 @@ type Mutation {
   createBook(data: BookInputType): Book
 
   \\"\\"\\"Update a Book\\"\\"\\"
-  updateBook(data: UpdateBookInputType, where: UpdateBookInputType, upsert: Boolean): Boolean
+  updateBook(data: UpdateBookInputType, where: UpdateBookInputType, upsert: Boolean): Book
 
   \\"\\"\\"Remove a Book\\"\\"\\"
   removeBook(where: BookInputType): Boolean
@@ -74,6 +76,7 @@ type Query {
 input UpdateAuthorInputType {
   name: String
   books: [UpdateBookInputType]
+  favoriteBook: UpdateBookInputType
 
   \\"\\"\\"Unique ID\\"\\"\\"
   id: ID

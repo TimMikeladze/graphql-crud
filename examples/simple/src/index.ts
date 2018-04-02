@@ -8,23 +8,24 @@ import { makeExecutableSchema } from 'graphql-tools';
 const PORT = 3000;
 
 const typeDefs = `
-  type Author @model {
-    name: String
-    books: [Book]
-  }
+type Author @model {
+  name: String!
+  books: [Book]
+  favoriteBook: Book
+}
 
-  type Book @model {
-    name: String
-    authors: [Author]
-  }
+type Book @model {
+  name: String!
+  authors: [Author]
+}
 
-  type Query {
-    _: Boolean
-  }
+type Query {
+  _: Boolean
+}
 
-  type Mutation {
-    _: Boolean
-  }
+type Mutation {
+  _: Boolean
+}
 `;
 
 const schema = makeExecutableSchema({
