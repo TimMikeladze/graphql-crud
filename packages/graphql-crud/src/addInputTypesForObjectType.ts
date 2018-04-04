@@ -1,12 +1,15 @@
 import {
+  getNamedType,
   GraphQLInputObjectType,
   GraphQLList,
+  GraphQLNonNull,
   GraphQLObjectType,
   GraphQLSchema,
 } from 'graphql';
 import {
   getInputType,
-  isValidInputType,
+  isNonNullable,
+  isValidInputFieldType,
   omitResolvers,
   toInputObjectTypeName,
 } from './';
@@ -18,6 +21,24 @@ export interface AddInputTypesForObjectTypeProps {
   modifyField?: (field: any) => any;
 }
 
+export const createInputField = (field, inputType) => {
+  // Create an input field based on the original field's type.
+  // If the field is non nullable or a list then it needs to be wrapped with the correct class.
+
+  let type = field.type instanceof GraphQLList ? new GraphQLList(inputType) : inputType;
+
+  if (isNonNullable(field)) {
+    type = new GraphQLNonNull(type);
+  }
+
+  const inputField = {
+    name: inputType.name,
+    type,
+  };
+
+  return inputField;
+};
+
 export const addInputTypesForObjectType = ({
   objectType,
   schema,
@@ -25,7 +46,6 @@ export const addInputTypesForObjectType = ({
   modifyField = (field) => field,
 }: AddInputTypesForObjectTypeProps) => {
   // Fields of an input type cannot have resolvers
-  // console.log(objectType);
   const fields = omitResolvers(objectType.getFields());
 
   // Create the corresponding input type.
@@ -38,7 +58,7 @@ export const addInputTypesForObjectType = ({
   // Adds the newly created input type to the type map.
   //
   // Note: the GraphQLObjectType fields of the input type have not yet been replaced.
-  // However weneed a reference to the input type added to the type map for lookups during recursion.
+  // However we need a reference to the input type added to the type map for lookups during recursion.
   schema.getTypeMap()[inputObjectType.name] = inputObjectType;
 
   // Iterate over each field in the input type.
@@ -52,27 +72,21 @@ export const addInputTypesForObjectType = ({
     .reduce((res, key) => {
       let field = fields[key];
 
-      if (!isValidInputType(field.type, schema)) {
+      if (!isValidInputFieldType(field.type)) {
         // Check if the input type already exists
-        const inputType = getInputType(`${prefix}${field.type.name}`, schema);
+        const inputType = getInputType(`${prefix}${getNamedType(field.type).name}`, schema);
         if (inputType) {
-          field = {
-            name: inputType.name,
-            type: field.type instanceof GraphQLList ? new GraphQLList(inputType) : inputType,
-          };
+          field = createInputField(field, inputType);
         } else {
           // Input type does not exist so we need to create it
-          const fieldType = schema.getType(field.type.ofType || field.type.name); // `field.type.ofType` is used in case of a list type
+          const fieldType = getNamedType(field.type);
           const newInputType = addInputTypesForObjectType({
             objectType: fieldType as GraphQLObjectType,
             schema,
             prefix,
             modifyField,
-         });
-          field = {
-            name: newInputType.name,
-            type: field.type instanceof GraphQLList ? new GraphQLList(newInputType) : newInputType,
-          };
+          });
+          field = createInputField(field, newInputType);
         }
       }
 

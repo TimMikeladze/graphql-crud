@@ -1,6 +1,6 @@
 {
   "name": "graphql-crud",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "GraphQL schema directives to generate CRUD queries and mutations with auto generated resolvers connected to a database.",
   "repository": {
     "type": "git",

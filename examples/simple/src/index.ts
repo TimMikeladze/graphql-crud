@@ -8,13 +8,14 @@ import { makeExecutableSchema } from 'graphql-tools';
 const PORT = 3000;
 
 const typeDefs = `
-  type Item @model {
-    name: String!
-    subItem: SubItem
+  type Author @model {
+    name: String
+    books: [Book]
   }
 
-  type SubItem {
-    name: String!
+  type Book @model {
+    name: String
+    authors: [Author]
   }
 
   type Query {
