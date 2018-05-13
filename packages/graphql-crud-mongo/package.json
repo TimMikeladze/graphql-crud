@@ -40,7 +40,7 @@
     ]
   },
   "peerDependencies": {
-    "graphql-crud": "^0.0.2"
+    "graphql-crud": "0.0.2"
   },
   "dependencies": {
     "lodash": "^4.17.5",
