@@ -54,8 +54,6 @@ export interface RemoveResolverArgs {
 }
 
 export class ModelDirective extends SchemaDirectiveVisitor {
-  public static UPDATE_INPUT_TYPE_PREFIX = 'Update';
-
   public visitObject(type: GraphQLObjectType) {
     // TODO check that id field does not already exist on type
     // Add an "id" field to the object type.
@@ -86,18 +84,6 @@ export class ModelDirective extends SchemaDirectiveVisitor {
     addInputTypesForObjectType({
       objectType,
       schema: this.schema,
-    });
-
-    // Often times a type will have required fields which the consumer
-    // does not want to include in every update mutation.
-    // In this case we create additional input types for update mutations.
-    // These types are prefixed with `Update`, (for example: `UpdateFooInputType`)
-    // and all non null fields are replaced with nullable fields.
-    // Note: additional validation is added in the `update` resolver.
-    addInputTypesForObjectType({
-      objectType,
-      schema: this.schema,
-      prefix: ModelDirective.UPDATE_INPUT_TYPE_PREFIX,
       modifyField: (field) => {
         field.type = getNullableType(field.type);
         return field;
@@ -346,11 +332,11 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       args: [
         {
           name: 'data',
-          type: getInputType(`${ModelDirective.UPDATE_INPUT_TYPE_PREFIX}${type.name}`, this.schema),
+          type: getInputType(type.name, this.schema),
         },
         {
           name: 'where',
-          type: getInputType(`${ModelDirective.UPDATE_INPUT_TYPE_PREFIX}${type.name}`, this.schema),
+          type: getInputType(type.name, this.schema),
         } as any,
         {
           name: 'upsert',

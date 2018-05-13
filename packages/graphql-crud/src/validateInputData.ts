@@ -29,10 +29,11 @@ export const validateInputData = (props: ValidateInputDataProps) => {
   const fields = props.type.getFields();
 
   Object
-    .keys(props.data)
+    .keys(fields)
     .forEach((key) => {
       const field = fields[key];
       const value = props.data[key];
+      // Encountered an input object within the data. Recursively call this function.
       if (isPlainObject(value)) {
         validateInputData({
           schema: props.schema,
@@ -40,7 +41,9 @@ export const validateInputData = (props: ValidateInputDataProps) => {
           type: getNullableType(field.type) as any,
         });
       } else {
-        if (value === null && isNonNullable(field)) {
+        // IF the field value provided is null and the field is non nullable
+        // OR the field was not provided but is marked as non nullable in the input type
+        if (value === null && isNonNullable(field) || !props.data[key] && isNonNullable(field)) {
           throw new Error(`${props.type.name}.${field.name} must not be null`);
         }
       }

@@ -1567,6 +1567,16 @@ graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.1.9:
   version "4.1.11"
   resolved "https://registry.yarnpkg.com/graceful-fs/-/graceful-fs-4.1.11.tgz#0e8bdfe4d1ddb8854d64e04ea7c00e2a026e5658"
 
+graphql-crud@0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/graphql-crud/-/graphql-crud-0.0.2.tgz#e3be36889a70e157ddb77564a77351228c43b8fa"
+  dependencies:
+    camel-case "^3.0.0"
+    clone-deep "^3.0.1"
+    lodash "^4.17.5"
+    pascal-case "^2.0.1"
+    pluralize "^7.0.0"
+
 graphql-tools@2.23.1:
   version "2.23.1"
   resolved "https://registry.yarnpkg.com/graphql-tools/-/graphql-tools-2.23.1.tgz#23f43000e2b9dc5a89920fe846fc5f71a320efdb"
