@@ -2,6 +2,7 @@ export default `
 type Author @model {
   name: String
   books: [Book]
+  favoriteBook: Book
 }
 
 type Book @model {

@@ -35,17 +35,25 @@ import typeDefs from './typeDefs';
 
 const typeDefs = `
 
-type Item @model {
-  name: String
+type Author @model {
+  name: String!
+  books: [Book]
+  favoriteBook: Book
+}
+
+type Book @model {
+  name: String!
+  authors: [Author]
+}
+
+type Query {
+  _: Boolean
 }
 
 type Mutation {
   _: Boolean
 }
 
-type Query {
-  _: Boolean
-}
 `
 
 const schema = makeExecutableSchema({
@@ -67,14 +75,12 @@ execute(
   schema,
   gql`
   mutation {
-      createItem(
-        data: {
-          name: "hello world"
-        }
-      ) {
-        id
-        name
-      }
+    createAuthor(data: {
+      name:"Leo Tolstoy"
+    }) {
+      id
+      name
+    }
   }
   `
   null,
@@ -85,29 +91,58 @@ execute(
 The above example will generate the following schema with functioning resolvers.
 
 ```graphql
-type Item {
+"type Author {
   name: String
+  books: [Book]
   id: ID
 }
 
-input ItemInputType {
+input AuthorInputType {
   name: String
+  books: [BookInputType]
+  id: ID
+}
+
+type Book {
+  name: String
+  authors: [Author]
+  id: ID
+}
+
+input BookInputType {
+  name: String
+  authors: [AuthorInputType]
   id: ID
 }
 
 type Mutation {
   _: Boolean
-
-  createItem(data: ItemInputType): Item
-  updateItem(data: ItemInputType, where: ItemInputType, upsert: Boolean): Boolean
-  removeItem(where: ItemInputType): Boolean
+  createAuthor(data: AuthorInputType): Author
+  updateAuthor(data: UpdateAuthorInputType, where: UpdateAuthorInputType, upsert: Boolean): Boolean
+  removeAuthor(where: AuthorInputType): Boolean
+  createBook(data: BookInputType): Book
+  updateBook(data: UpdateBookInputType, where: UpdateBookInputType, upsert: Boolean): Boolean
+  removeBook(where: BookInputType): Boolean
 }
 
 type Query {
   _: Boolean
+  author(where: AuthorInputType): Author
+  authors(where: AuthorInputType): [Author]
+  book(where: BookInputType): Book
+  books(where: BookInputType): [Book]
+}
 
-  item(where: ItemInputType): Item
-  items(where: ItemInputType): [Item]
+input UpdateAuthorInputType {
+  name: String
+  books: [UpdateBookInputType]
+  id: ID
+}
+
+input UpdateBookInputType {
+  name: String
+  authors: [UpdateAuthorInputType]
+  id: ID
 }
 ```
 
