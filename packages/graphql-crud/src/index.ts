@@ -7,7 +7,7 @@ export * from './generateFieldNames';
 export * from './omitResolvers';
 export * from './addInputTypesForObjectType';
 export * from './util';
-export * from './validateUpdateInputData';
+export * from './validateInputData';
 
 import { DefaultDirective } from './DefaultDirective';
 import { ModelDirective } from './ModelDirective';
