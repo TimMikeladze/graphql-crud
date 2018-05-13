@@ -302,6 +302,20 @@ export class ModelDirective extends SchemaDirectiveVisitor {
     };
   }
 
+  // Helper function for adding mutations to the schema
+  private addMutation(field, replaceExisting = false) {
+    if (replaceExisting || !(this.schema.getMutationType() as any).getFields()[field.name]) {
+      (this.schema.getMutationType() as any).getFields()[field.name] = field;
+    }
+  }
+
+  // Helper function for adding queries to the schema
+  private addQuery(field, replaceExisting = false) {
+    if (replaceExisting || !(this.schema.getQueryType() as any).getFields()[field.name]) {
+      (this.schema.getQueryType() as any).getFields()[field.name] = field;
+    }
+  }
+
   private addMutations(type: GraphQLObjectType) {
     const names = generateFieldNames(type.name);
 
@@ -309,7 +323,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
 
     // create mutation
 
-    (this.schema.getMutationType() as any).getFields()[names.mutation.create] = {
+    this.addMutation({
       name: names.mutation.create,
       type,
       description: `Create a ${type.name}`,
@@ -321,11 +335,11 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       ],
       resolve: this.createMutationResolver(type),
       isDeprecated: false,
-    };
+    });
 
     // update mutation
 
-    (this.schema.getMutationType() as any).getFields()[names.mutation.update] = {
+    this.addMutation({
       name: names.mutation.update,
       type,
       description: `Update a ${type.name}`,
@@ -345,11 +359,11 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       ],
       resolve: this.updateResolver(type),
       isDeprecated: false,
-    };
+    });
 
     // remove mutation
 
-    (this.schema.getMutationType() as any).getFields()[names.mutation.remove] = {
+    this.addMutation({
       name: names.mutation.remove,
       type: GraphQLBoolean,
       description: `Remove a ${type.name}`,
@@ -366,7 +380,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
         });
       },
       isDeprecated: false,
-    };
+    });
   }
 
   private addQueries(type: GraphQLObjectType) {
@@ -374,7 +388,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
 
     // find one query
 
-    this.schema.getQueryType().getFields()[names.query.one] = {
+    this.addQuery({
       name: names.query.one,
       type,
       description: `Find one ${type.name}`,
@@ -386,11 +400,11 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       ],
       resolve: this.findOneQueryResolver(type),
       isDeprecated: false,
-    };
+    });
 
     // find many query
 
-    this.schema.getQueryType().getFields()[names.query.many] = {
+    this.addQuery({
       name: names.query.many,
       type: new GraphQLList(type),
       description: `Find multiple ${pluralize.plural(type.name)}`,
@@ -402,6 +416,6 @@ export class ModelDirective extends SchemaDirectiveVisitor {
       ],
       resolve: this.findQueryResolver(type),
       isDeprecated: false,
-    };
+    });
   }
 }
