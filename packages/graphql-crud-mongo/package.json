@@ -40,7 +40,7 @@
     ]
   },
   "peerDependencies": {
-    "graphql-crud": "0.0.2"
+    "graphql-crud": "0.0.4"
   },
   "dependencies": {
     "lodash": "^4.17.5",
@@ -50,7 +50,7 @@
     "@intelight/tslint": "0.0.9",
     "@types/jest": "22.2.3",
     "@types/node": "9.6.15",
-    "graphql-crud": "0.0.2",
+    "graphql-crud": "0.0.4",
     "jest": "22.4.3",
     "rimraf": "2.6.2",
     "ts-jest": "22.4.2",
