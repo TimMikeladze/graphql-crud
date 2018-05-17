@@ -17,6 +17,7 @@ export interface ValidateInputDataProps {
   type: GraphQLObjectType;
   schema: GraphQLSchema;
   data: object;
+  skipMissingFields: boolean;
 }
 
 // For every null value in the input data
@@ -39,11 +40,13 @@ export const validateInputData = (props: ValidateInputDataProps) => {
           schema: props.schema,
           data: value,
           type: getNullableType(field.type) as any,
+          skipMissingFields: props.skipMissingFields,
         });
       } else {
         // IF the field value provided is null and the field is non nullable
         // OR the field was not provided but is marked as non nullable in the input type
-        if (value === null && isNonNullable(field) || !props.data[key] && isNonNullable(field)) {
+        //  AND skipMissingFields is marked false
+        if (value === null && isNonNullable(field) || !props.data[key] && isNonNullable(field) && !props.skipMissingFields) {
           throw new Error(`${props.type.name}.${field.name} must not be null`);
         }
       }

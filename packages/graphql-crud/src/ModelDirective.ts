@@ -244,6 +244,7 @@ export class ModelDirective extends SchemaDirectiveVisitor {
         data: args.data,
         type,
         schema: this.schema,
+        skipMissingFields: true,
       });
 
       const relatedObjects = await this.visitNestedModels({
