@@ -8,22 +8,22 @@ GraphQL schema directives to generate CRUD queries, mutations and resolvers whic
 
 **Supported databases:**
 
-- Mongo
+-   Mongo
 
 _Database of your choice missing? Adding one is easy  - implement the [Store](https://github.com/Intelight/graphql-crud/blob/master/packages/graphql-crud/src/Store.ts) interface._
 
 **Available directives:**
 
-- `@model` - Generates queries, mutations and resolvers for the annotated type.
+-   `@model` - Generates queries, mutations and resolvers for the annotated type.
 
 ## Getting started
 
-1. Install core package: `npm install graphql-crud` or `yarn add graphql-crud`.
-2. Install a store package:
-    - Mongo: `npm install graphql-crud-mongo` or `yarn add graphql-crud-mongo`.
-3. Define your schema and annotate it with directives.
-4. Use `makeExecutableSchema` to generate the schema.
-5. Instantiate and assign your store to `directives.model.store` on the GraphQL `context`.
+1.  Install core package: `npm install graphql-crud` or `yarn add graphql-crud`.
+2.  Install a store package:
+    -   Mongo: `npm install graphql-crud-mongo` or `yarn add graphql-crud-mongo`.
+3.  Define your schema and annotate it with directives.
+4.  Use `makeExecutableSchema` to generate the schema.
+5.  Instantiate and assign your store to `directives.model.store` on the GraphQL `context`.
 
 ```javascript
 import { makeExecutableSchema } from 'graphql-tools';
@@ -154,14 +154,106 @@ In the repo's root run the following:
 
 In `examples/simple` run the following:
 
-1. `npm install; npm start` or `yarn install; yarn start`
-1. Navigate to http://localhost:3000/graphiql
-
+1.  `npm install; npm start` or `yarn install; yarn start`
+2.  Navigate to <http://localhost:3000/graphiql>
 
 ## Getting started for development
 
-1. `docker-compose up -d` to start database dependencies for testing and the example.
-1. `npm install` or `yarn install`.
-1. `npm run link:packages` or `yarn link:packages`.
-1. `npm run build:watch` or `yarn build:watch`
-1. Write code.
+1.  `docker-compose up -d` to start database dependencies for testing and the example.
+2.  `npm install` or `yarn install`.
+3.  `npm run link:packages` or `yarn link:packages`.
+4.  `npm run build:watch` or `yarn build:watch`
+5.  Write code.
+
+
+type Condition {
+  and: [Rule]
+  or: [Rule]
+}
+
+type Rule {
+  ID: ID!
+  and: [Rule]
+  or: [Rule]
+  operator: Operator
+  value: ???
+  field: ???
+}
+
+type Book {
+  id: ID
+  name: String
+}
+
+type User @model {
+  id: ID
+  username: String
+  @relation Author.isBookmarked
+  bookmarkedAuthors: [Author]
+  bookmarkedBooks: [Book]
+  @relation book.id
+  queuedBooks: [Book]
+  @relation book.id
+  favoriteBook: Book
+}
+
+type Author {
+  id: ID
+  name: String
+  favoriteBook: Book
+  writtenBooks: [Book]
+}
+
+type Authors {
+  findAuthors(
+    qb: Condition
+  ): Author
+}
+
+query Authors {
+  findAuthor(
+    rule: {
+      operator: "equals"
+      field: "name"
+      value: "tolstoy"
+    }
+  )
+
+  findAuthor(
+    rule: {
+      operator: "equals"
+      field: "self"
+      value: {
+        name: "tolstoy"
+      }
+    }
+  )
+
+  findAuthor(
+    query: {
+      operator: "equals"
+      field: "writtenBooks.name"
+      value: "war and peace"
+      or: {
+        operator: "equals"
+        field: "writtenBooks.name"
+        value: "anna karenina"
+        and: {
+          field: "writtenBooks.name"
+        }
+      }
+    }
+  )
+}
+
+mutate Author {
+  createAuthor(data: {
+    name: "leo tolstoy"
+  })
+
+  addBook(data, query)
+
+  addBook(data, id)
+
+  addBook(data, ids)
+}

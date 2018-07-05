@@ -1,7 +1,7 @@
 import { graphiqlExpress, graphqlExpress } from 'apollo-server-express';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
-import crud from 'graphql-crud';
+import { createGraphQLCrud } from 'graphql-crud';
 import MongoStore from 'graphql-crud-mongo';
 import { makeExecutableSchema } from 'graphql-tools';
 
@@ -38,9 +38,7 @@ type Mutation {
 
 const schema = makeExecutableSchema({
   typeDefs,
-  schemaDirectives: {
-    ...crud,
-  },
+  schemaDirectives: createGraphQLCrud().schemaDirectives,
 });
 
 const context = {
