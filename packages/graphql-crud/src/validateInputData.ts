@@ -17,7 +17,7 @@ export interface ValidateInputDataProps {
   type: GraphQLObjectType;
   schema: GraphQLSchema;
   data: object;
-  skipMissingFields: boolean;
+  skipMissingFields?: boolean;
 }
 
 // For every null value in the input data

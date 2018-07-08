@@ -20,6 +20,7 @@ export const generateFieldNames = (name) => {
       create: `create${pluralize.singular(pascalCase(name))}`,
       remove: `remove${pluralize.singular(pascalCase(name))}`,
       update: `update${pluralize.singular(pascalCase(name))}`,
+      addRelated: (typeName) => `add${pluralize.singular(pascalCase(name))}To${pascalCase(pluralize.singular(typeName))}`,
     },
   };
 

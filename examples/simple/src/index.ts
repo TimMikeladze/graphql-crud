@@ -13,12 +13,12 @@ type Library @model {
   name: String!
   books: [Book]
   authors: [Author]
+  # archivedBooks: [Book]
 }
 
 type Author @model {
   name: String!
   books: [Book]
-  relatedAuthors: [Author]
 }
 
 type Book @model {

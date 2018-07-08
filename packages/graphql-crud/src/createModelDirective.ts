@@ -7,6 +7,7 @@ import {
   GraphQLInputObjectType,
   GraphQLList,
   GraphQLObjectType,
+  GraphQLSchema,
   GraphQLString,
 } from 'graphql';
 import { SchemaDirectiveVisitor } from 'graphql-tools';
@@ -57,6 +58,7 @@ export interface RemoveResolverArgs {
 
 export const createModelDirective: any = () => {
   return class ModelDirective extends SchemaDirectiveVisitor {
+    private schema: GraphQLSchema;
     public visitObject(type: GraphQLObjectType) {
       // TODO check that id field does not already exist on type
       // Add an "id" field to the object type.
@@ -75,6 +77,9 @@ export const createModelDirective: any = () => {
 
       // Modify root Mutation type to add create, update, upsert, and remove mutations
       this.addMutations(type);
+
+      // Modifies root Mutation to add related add/remove mutations
+      this.addRelatedMutations(type);
 
       // Modify root Query type to add "find one" and "find many" queries
       this.addQueries(type);
@@ -245,6 +250,19 @@ export const createModelDirective: any = () => {
         });
 
         return merge({}, rootObject, nestedObjects);
+      };
+    }
+
+    private addRelatedMutationResolver(type) {
+      return async (root, args: any, Context: ResolverContext) => {
+        validateInputData({
+          data: args.data,
+          type,
+          schema: this.schema,
+        });
+
+        const objectIds = this.pluckModelObjectIds(args.where);
+        console.log(objectIds);
       };
     }
 
@@ -432,6 +450,45 @@ export const createModelDirective: any = () => {
         },
         isDeprecated: false,
       });
+    }
+
+    private addRelatedMutations(type: GraphQLObjectType) {
+      const fields = type.getFields();
+      const relatedTypes = Object
+        .keys(fields)
+        .reduce((res, key): any => {
+          const value = fields[key];
+          if (hasDirective('model', getNamedType(value.type))) {
+            return {
+              [key]: value,
+            };
+          }
+          return res;
+        });
+
+      Object
+        .keys(relatedTypes)
+        .forEach((key) => {
+          const value = relatedTypes[key];
+          const names = generateFieldNames(getNamedType(value.type).name);
+
+          this.addMutation({
+            name: generateFieldNames(key).mutation.addRelated(getNamedType(type).name),
+            type: value.type,
+            args: [
+              {
+                name: 'data',
+                type: (this.schema.getType(names.input.type)),
+              },
+              {
+                name: 'where',
+                type: (this.schema.getType(generateFieldNames(type).input.type)),
+              } as any,
+            ],
+            resolve: this.addRelatedMutationResolver(type),
+            isDeprecated: false,
+          });
+        });
     }
 
     private addQueries(type: GraphQLObjectType) {
