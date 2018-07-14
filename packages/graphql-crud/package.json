@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@intelight/tslint": "0.0.9",
-    "@types/graphql": "0.13.1",
+    "@types/graphql": "0.13.3",
     "@types/jest": "22.2.3",
     "@types/node": "9.6.18",
     "jest": "23.1.0",
