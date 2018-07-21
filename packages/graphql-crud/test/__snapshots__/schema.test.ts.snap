@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`schema produces the expected schema 1`] = `
+"type Mutation {
+  _: Boolean
+
+  \\"\\"\\"Create a Role\\"\\"\\"
+  createRole(data: RoleInputType): Role
+
+  \\"\\"\\"Update a Role\\"\\"\\"
+  updateRole(data: RoleInputType, where: RoleInputType, upsert: Boolean): Role
+
+  \\"\\"\\"Remove a Role\\"\\"\\"
+  removeRole(where: RoleInputType): Boolean
+  addUserGroupToRole(data: UserGroupInputType, where: RoleInputType): [UserGroup]
+
+  \\"\\"\\"Create a User\\"\\"\\"
+  createUser(data: UserInputType): User
+
+  \\"\\"\\"Update a User\\"\\"\\"
+  updateUser(data: UserInputType, where: UserInputType, upsert: Boolean): User
+
+  \\"\\"\\"Remove a User\\"\\"\\"
+  removeUser(where: UserInputType): Boolean
+  addUserRoleToUser(data: RoleInputType, where: UserInputType): [Role]
+
+  \\"\\"\\"Create a UserGroup\\"\\"\\"
+  createUserGroup(data: UserGroupInputType): UserGroup
+
+  \\"\\"\\"Update a UserGroup\\"\\"\\"
+  updateUserGroup(data: UserGroupInputType, where: UserGroupInputType, upsert: Boolean): UserGroup
+
+  \\"\\"\\"Remove a UserGroup\\"\\"\\"
+  removeUserGroup(where: UserGroupInputType): Boolean
+  addUserRoleToUserGroup(data: RoleInputType, where: UserGroupInputType): [Role]
+}
+
+type Query {
+  _: Boolean
+
+  \\"\\"\\"Find one Role\\"\\"\\"
+  role(where: RoleInputType): Role
+
+  \\"\\"\\"Find multiple Roles\\"\\"\\"
+  roles(where: RoleInputType): [Role]
+
+  \\"\\"\\"Find one User\\"\\"\\"
+  user(where: UserInputType): User
+
+  \\"\\"\\"Find multiple Users\\"\\"\\"
+  users(where: UserInputType): [User]
+
+  \\"\\"\\"Find one UserGroup\\"\\"\\"
+  userGroup(where: UserGroupInputType): UserGroup
+
+  \\"\\"\\"Find multiple UserGroups\\"\\"\\"
+  userGroups(where: UserGroupInputType): [UserGroup]
+}
+
+type Role {
+  key: String!
+  title: String!
+  description: String
+  users: [User]
+  userGroups: [UserGroup]
+
+  \\"\\"\\"Unique ID\\"\\"\\"
+  id: ID
+}
+
+input RoleInputType {
+  key: String
+  title: String
+  description: String
+  users: [UserInputType]
+  userGroups: [UserGroupInputType]
+
+  \\"\\"\\"Unique ID\\"\\"\\"
+  id: ID
+}
+
+input Rule {
+  \\"\\"\\"Operator\\"\\"\\"
+  operator: String
+
+  \\"\\"\\"And\\"\\"\\"
+  and: [Rule]
+
+  \\"\\"\\"Or\\"\\"\\"
+  or: [Rule]
+
+  \\"\\"\\"Value\\"\\"\\"
+  value: String
+
+  \\"\\"\\"Field\\"\\"\\"
+  field: String
+}
+
+type User {
+  username: String
+  userGroups: [UserGroup]
+  userRoles: [Role]
+
+  \\"\\"\\"Unique ID\\"\\"\\"
+  id: ID
+}
+
+type UserGroup {
+  title: String!
+  description: String
+  users: [User]
+  userRoles: [Role]
+
+  \\"\\"\\"Unique ID\\"\\"\\"
+  id: ID
+}
+
+input UserGroupInputType {
+  title: String
+  description: String
+  users: [UserInputType]
+  userRoles: [RoleInputType]
+
+  \\"\\"\\"Unique ID\\"\\"\\"
+  id: ID
+}
+
+input UserInputType {
+  username: String
+  userGroups: [UserGroupInputType]
+  userRoles: [RoleInputType]
+
+  \\"\\"\\"Unique ID\\"\\"\\"
+  id: ID
+}
+"
+`;

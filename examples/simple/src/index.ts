@@ -9,22 +9,25 @@ const PORT = 3000;
 
 const typeDefs = `
 
-type Library @model {
-  name: String!
-  books: [Book]
-  authors: [Author]
-  # archivedBooks: [Book]
+type Role @model{
+  key: String!
+  title: String!
+  description: String
+  users: [User]
+  userGroups: [UserGroup]
 }
 
-type Author @model {
-  name: String!
-  books: [Book]
+type UserGroup @model {
+  title: String!
+  description: String
+  users: [User]
+  userRoles: [Role]
 }
 
-type Book @model {
-  name: String!
-  authors: [Author]
-  publishedDate: String
+type User @model {
+  username: String
+  userGroups: [UserGroup]
+  userRoles: [Role]
 }
 
 type Query {
@@ -33,8 +36,7 @@ type Query {
 
 type Mutation {
   _: Boolean
-}
-`;
+}`;
 
 const schema = makeExecutableSchema({
   typeDefs,

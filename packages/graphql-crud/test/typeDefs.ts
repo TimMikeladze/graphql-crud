@@ -1,13 +1,23 @@
 export default `
-type Author @model {
-  name: String
-  books: [Book]
-  favoriteBook: Book
+type Role @model{
+  key: String!
+  title: String!
+  description: String
+  users: [User]
+  userGroups: [UserGroup]
 }
 
-type Book @model {
-  name: String
-  authors: [Author]
+type UserGroup @model {
+  title: String!
+  description: String
+  users: [User]
+  userRoles: [Role]
+}
+
+type User @model {
+  username: String @unique
+  userGroups: [UserGroup]
+  userRoles: [Role]
 }
 
 type Query {
