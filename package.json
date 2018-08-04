@@ -30,7 +30,7 @@
     "commitizen": "2.10.1",
     "cz-conventional-changelog": "2.1.0",
     "graphql": "0.13.2",
-    "graphql-tools": "3.0.5",
+    "graphql-tools": "3.1.1",
     "lint-staged": "7.2.0",
     "oao": "1.5.1"
   }
