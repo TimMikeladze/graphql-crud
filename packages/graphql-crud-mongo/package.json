@@ -51,7 +51,7 @@
     "@types/jest": "22.2.3",
     "@types/node": "9.6.30",
     "graphql-crud": "0.0.4",
-    "jest": "23.5.0",
+    "jest": "23.6.0",
     "rimraf": "2.6.2",
     "ts-jest": "22.4.6",
     "ts-node": "6.2.0",
