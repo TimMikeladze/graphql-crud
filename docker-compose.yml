@@ -1,7 +1,7 @@
 version: '2'
 services:
     mongodb:
-        image: mongo:latest@sha256:89672f72dde6ec88618fcfa2fd11a45d147cbd7df97573c227ff8d80131c3c53
+        image: mongo:latest@sha256:15adfdd96e1bba9fa6bc6ebe8e9c69cd49b563ec43a6f6dc63eac96f4e63ab00
         container_name: "mongodb"
         environment:
           - MONGO_DATA_DIR=/data/db
