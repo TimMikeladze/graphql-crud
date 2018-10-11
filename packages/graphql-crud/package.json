@@ -20,7 +20,7 @@
     "link:packages": "yarn link"
   },
   "engines": {
-    "node": ">=8.9.0"
+    "node": "10.12.0"
   },
   "jest": {
     "transform": {
