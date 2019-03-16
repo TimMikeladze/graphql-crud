@@ -51,9 +51,9 @@
   version "22.2.3"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-22.2.3.tgz#0157c0316dc3722c43a7b71de3fdf3acbccef10d"
 
-"@types/node@9.6.45":
-  version "9.6.45"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.45.tgz#a9e5cfd026a3abaaf17e3c0318a470da9f2f178e"
+"@types/node@9.6.46":
+  version "9.6.46"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.46.tgz#bb2eeb0eeb58e401ef9e4e29abc4f81003ee767c"
 
 abab@^1.0.4:
   version "1.0.4"
