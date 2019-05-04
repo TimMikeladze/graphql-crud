@@ -50,7 +50,7 @@
     "@intelight/tslint": "0.0.9",
     "@types/graphql": "0.13.4",
     "@types/jest": "22.2.3",
-    "@types/node": "9.6.47",
+    "@types/node": "9.6.48",
     "jest": "23.6.0",
     "rimraf": "2.6.3",
     "ts-jest": "22.4.6",
