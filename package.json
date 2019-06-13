@@ -31,7 +31,7 @@
     "cz-conventional-changelog": "2.1.0",
     "graphql": "0.13.2",
     "graphql-tools": "3.1.1",
-    "lint-staged": "7.3.0",
+    "lint-staged": "8.2.1",
     "oao": "1.6.0"
   }
 }
