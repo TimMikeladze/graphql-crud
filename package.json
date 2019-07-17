@@ -27,7 +27,7 @@
     }
   },
   "devDependencies": {
-    "commitizen": "2.10.1",
+    "commitizen": "3.1.2",
     "cz-conventional-changelog": "2.1.0",
     "graphql": "0.13.2",
     "graphql-tools": "3.1.1",
