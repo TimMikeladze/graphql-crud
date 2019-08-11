@@ -16,13 +16,6 @@
     esutils "^2.0.2"
     js-tokens "^3.0.0"
 
-"@babel/polyfill@7.2.5":
-  version "7.2.5"
-  resolved "https://registry.yarnpkg.com/@babel/polyfill/-/polyfill-7.2.5.tgz#6c54b964f71ad27edddc567d065e57e87ed7fa7d"
-  dependencies:
-    core-js "^2.5.7"
-    regenerator-runtime "^0.12.0"
-
 "@intelight/tslint@0.0.9":
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/@intelight/tslint/-/tslint-0.0.9.tgz#40f9522007f8eae75da01bd963fec44e16e83418"
@@ -899,10 +892,6 @@ copy-descriptor@^0.1.0:
 core-js@^2.4.0, core-js@^2.5.0:
   version "2.5.3"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.3.tgz#8acc38345824f16d8365b7c9b4259168e8ed603e"
-
-core-js@^2.5.7:
-  version "2.6.5"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.5.tgz#44bc8d249e7fb2ff5d00e0341a7ffb94fbf67895"
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -3290,11 +3279,10 @@ nwmatcher@^1.4.3:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.4.tgz#2285631f34a95f0d0395cd900c96ed39b58f346e"
 
-oao@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/oao/-/oao-1.6.0.tgz#917b62fa86ad948ead3ec70162cdf915d2edcc33"
+oao@1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/oao/-/oao-1.6.1.tgz#7cfe548a9ec723cba1e3ea5b591e0a6ea55f7faf"
   dependencies:
-    "@babel/polyfill" "7.2.5"
     commander "2.19.0"
     execa "0.6.3"
     globby "6.1.0"
@@ -3308,7 +3296,7 @@ oao@1.6.0:
     storyboard "3.1.4"
     storyboard-listener-console "3.1.4"
     storyboard-listener-console-parallel "3.1.4"
-    timm "1.6.1"
+    timm "^1.6.2"
 
 oauth-sign@~0.8.1, oauth-sign@~0.8.2:
   version "0.8.2"
@@ -3738,10 +3726,6 @@ regenerator-runtime@^0.10.0:
 regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
-
-regenerator-runtime@^0.12.0:
-  version "0.12.1"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz#fa1a71544764c036f8c49b13a08b2594c9f8a0de"
 
 regex-cache@^0.4.2:
   version "0.4.4"
@@ -4444,13 +4428,17 @@ through@2, through@^2.3.6:
   version "2.3.8"
   resolved "https://registry.yarnpkg.com/through/-/through-2.3.8.tgz#0dd4c9ffaabc357960b1b724115d7e0e86a2e1f5"
 
-timm@1.6.1, timm@^1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/timm/-/timm-1.6.1.tgz#5f8aafc932248c76caf2c6af60542a32d3c30701"
-
 timm@^1.2.3:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/timm/-/timm-1.4.1.tgz#5637cf46dd781fa837d1a8cedd68e739f9789b92"
+
+timm@^1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/timm/-/timm-1.6.1.tgz#5f8aafc932248c76caf2c6af60542a32d3c30701"
+
+timm@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/timm/-/timm-1.6.2.tgz#dfd8c6719f7ba1fcfc6295a32670a1c6d166c0bd"
 
 tmp@^0.0.29:
   version "0.0.29"
