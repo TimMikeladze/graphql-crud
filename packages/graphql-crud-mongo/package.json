@@ -52,7 +52,7 @@
     "@types/node": "9.6.50",
     "graphql-crud": "0.0.4",
     "jest": "23.6.0",
-    "rimraf": "2.6.3",
+    "rimraf": "2.7.1",
     "ts-jest": "22.4.6",
     "ts-node": "6.2.0",
     "tslint": "5.9.1",
