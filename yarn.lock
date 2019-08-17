@@ -3279,9 +3279,9 @@ nwmatcher@^1.4.3:
   version "1.4.4"
   resolved "https://registry.yarnpkg.com/nwmatcher/-/nwmatcher-1.4.4.tgz#2285631f34a95f0d0395cd900c96ed39b58f346e"
 
-oao@1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/oao/-/oao-1.6.1.tgz#7cfe548a9ec723cba1e3ea5b591e0a6ea55f7faf"
+oao@1.7.0:
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/oao/-/oao-1.7.0.tgz#58e09bedbed131c27970bf38356e2770d058cdce"
   dependencies:
     commander "2.19.0"
     execa "0.6.3"
