@@ -48,7 +48,7 @@
   },
   "devDependencies": {
     "@intelight/tslint": "0.0.9",
-    "@types/graphql": "0.13.4",
+    "@types/graphql": "14.0.2",
     "@types/jest": "22.2.3",
     "@types/node": "9.6.51",
     "jest": "23.6.0",
@@ -59,7 +59,7 @@
     "typescript": "2.9.2"
   },
   "peerDependencies": {
-    "graphql": "0.13.2",
+    "graphql": "14.0.2",
     "graphql-tools": "3.1.1"
   }
 }
