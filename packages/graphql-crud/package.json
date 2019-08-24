@@ -44,7 +44,7 @@
     "clone-deep": "^4.0.0",
     "lodash": "^4.17.5",
     "pascal-case": "^2.0.1",
-    "pluralize": "^7.0.0"
+    "pluralize": "^8.0.0"
   },
   "devDependencies": {
     "@intelight/tslint": "0.0.9",
