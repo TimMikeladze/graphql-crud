@@ -43,7 +43,7 @@
     "graphql-crud": "0.0.4"
   },
   "dependencies": {
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.21",
     "mongoist": "^1.7.1"
   },
   "devDependencies": {
